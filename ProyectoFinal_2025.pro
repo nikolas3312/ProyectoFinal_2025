@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     enemigo.cpp \
+    entidad.cpp \
     gestorgame.cpp \
     hitbox.cpp \
     luchador.cpp \
@@ -20,6 +21,7 @@ SOURCES += \
 
 HEADERS += \
     enemigo.h \
+    entidad.h \
     gestorgame.h \
     hitbox.h \
     luchador.h \
