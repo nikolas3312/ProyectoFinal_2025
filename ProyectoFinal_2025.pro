@@ -13,10 +13,14 @@ SOURCES += \
     entidad.cpp \
     gestorgame.cpp \
     hitbox.cpp \
+    juego.cpp \
     luchador.cpp \
     main.cpp \
     mainwindow.cpp \
+    nivel.cpp \
     nivel2_3.cpp \
+    nivel_1.cpp \
+    obstaculo.cpp \
     personajejugador.cpp
 
 HEADERS += \
@@ -24,9 +28,13 @@ HEADERS += \
     entidad.h \
     gestorgame.h \
     hitbox.h \
+    juego.h \
     luchador.h \
     mainwindow.h \
+    nivel.h \
     nivel2_3.h \
+    nivel_1.h \
+    obstaculo.h \
     personajejugador.h
 
 FORMS += \
