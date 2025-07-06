@@ -2,7 +2,7 @@
 
 // Se incluyen las cabeceras de los objetos que esta clase debe conocer.
 #include "Nivel_1.h"
-// #include "Nivel_2_3.h" // Se incluirá cuando la clase de Keiner esté lista.
+#include "Nivel2_3.h"
 
 #include <QTimer>
 #include <QKeyEvent>
