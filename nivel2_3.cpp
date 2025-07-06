@@ -1,20 +1,61 @@
 #include "nivel2_3.h"
+#include <cmath>
 
-Nivel2_3::Nivel2_3() {
-    jugador = new PersonajeJugador(100, 400, 50, 80);
-    enemigo = new Enemigo(500, 400, 50, 80);
-    estado = EstadoJuego::Jugando;
+Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
+    : estadoActual(Estado::CUENTA_REGRESIVA),
+    personajeElegido(personaje),
+    jugador(nullptr),
+    enemigo(nullptr),
+    tiempoCuentaRegresiva(3.0f),
+    numeroNivel(numeroNivel)
+{
 }
 
 Nivel2_3::~Nivel2_3() {
     delete jugador;
     delete enemigo;
-    for (auto h : hitboxesActivas) delete h;
+    for (auto h : hitboxesActivas)
+        delete h;
+    hitboxesActivas.clear();
 }
 
-void Nivel2_3::actualizar(float deltaTiempo, const QSet<int>& teclas) {
-    if (estado != EstadoJuego::Jugando) return;
+void Nivel2_3::inicializar()
+{
+    // Crear jugador
+    jugador = new PersonajeJugador(100, 400, 50, 80);
 
+    // Según el nivel, crear enemigo
+    if (numeroNivel == 2) {
+        enemigo = new Enemigo(500, 400, 50, 80);
+        // poner stats específicos de Ten Shin Han
+    } else if (numeroNivel == 3) {
+        enemigo = new Enemigo(500, 400, 50, 80);
+        // poner stats para Piccolo
+    }
+}
+void Nivel2_3::actualizar(float deltaTiempo) {
+
+    switch (estadoActual) {
+    case Estado::CUENTA_REGRESIVA:
+        actualizarCuentaRegresiva(deltaTiempo);
+        break;
+    case Estado::JUGANDO:
+        actualizarCombate(deltaTiempo, teclas);
+        break;
+    case Estado::VICTORIA:
+    case Estado::DERROTA:
+        break;
+    }
+}
+void Nivel2_3::actualizarCuentaRegresiva(float deltaTiempo) {
+    tiempoCuentaRegresiva -= deltaTiempo;
+    if (tiempoCuentaRegresiva <= 0.0f) {
+        estadoActual = Estado::JUGANDO;
+    }
+}
+
+void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
+{
     jugador->procesarInput(teclas);
     jugador->actualizar(deltaTiempo);
     enemigo->actualizar(deltaTiempo);
@@ -36,9 +77,9 @@ void Nivel2_3::actualizar(float deltaTiempo, const QSet<int>& teclas) {
     limpiarHitboxes();
 
     if (!jugador->estaVivo())
-        estado = EstadoJuego::Perdido;
+        estadoActual = Estado::DERROTA;
     else if (!enemigo->estaVivo())
-        estado = EstadoJuego::Ganado;
+        estadoActual = Estado::VICTORIA;
 }
 
 void Nivel2_3::dibujar(QPainter* painter) {
@@ -47,16 +88,24 @@ void Nivel2_3::dibujar(QPainter* painter) {
 
     painter->setBrush(Qt::red);
     painter->drawRect(enemigo->getBoundingRect());
-
+    //dibujar hitboxes
     painter->setBrush(Qt::yellow);
     for (auto h : hitboxesActivas) {
         if (h->estaActiva())
             painter->drawRect(h->rect);
     }
+    //dibujar UI
+    painter->setPen(Qt::white);
+    painter->setFont(QFont("Arial", 24, QFont::Bold));
+
+    if (estadoActual == Estado::CUENTA_REGRESIVA) {
+        int num = static_cast<int>(ceil(tiempoCuentaRegresiva));
+        painter->drawText(300, 200, QString::number(num));
+    }
 }
 
-EstadoJuego Nivel2_3::getEstadoJuego() const {
-    return estado;
+bool Nivel2_3::estaTerminado() const {
+    return estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA;
 }
 
 void Nivel2_3::revisarColisiones() {
@@ -83,4 +132,8 @@ void Nivel2_3::limpiarHitboxes() {
             ++it;
         }
     }
+}
+
+void Nivel2_3::recibirInput(const Qset<int> &teclas) {
+    teclasPresionadas = teclas;
 }
