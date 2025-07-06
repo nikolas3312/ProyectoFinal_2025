@@ -3,11 +3,12 @@
 
 #include "personajejugador.h"
 #include "Nivel.h"
+#include "nivel_1.h"
 #include "enemigo.h"
 #include "hitbox.h"
 #include <vector>
 #include <QPainter>
-#include <Qset>
+#include <QSet>
 
 
 class Nivel2_3 : public Nivel {
@@ -29,25 +30,23 @@ private:
     int numeroNivel; // esta es para saber si es contra ten shin han o piccolo
 
     void actualizarCuentaRegresiva(float deltaTiempo);
-    void actualizarCombate(float deltaTiempo, const Qset<int>& teclas);
+    void actualizarCombate(float deltaTiempo, const teclasPresionadas);
     void revisarColisiones();
     void limpiarHitboxes();
 
+    QSet<int> teclasPresionadas;
 
 public:
-    Nivel2_3(personajeSeleccionado personaje, int numeroNivel);
+    Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel);
     ~Nivel2_3();
 
-    void iniciaizar() override;
+    void inicializar() override;
     void actualizar(float deltaTiempo) override;
     void dibujar(QPainter* painter) override;
     bool estaTerminado() const override;
 
 
-    void recibirInput(const Qset<int>& teclas);
-
-private:
-    Qset<int> teclasPresionadas;
+    void recibirInput(const QSet<int>& teclas);
 
 };
 
