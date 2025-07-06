@@ -40,7 +40,7 @@ void Nivel2_3::actualizar(float deltaTiempo) {
         actualizarCuentaRegresiva(deltaTiempo);
         break;
     case Estado::JUGANDO:
-        actualizarCombate(deltaTiempo, teclas);
+        actualizarCombate(deltaTiempo, teclasPresionadas);
         break;
     case Estado::VICTORIA:
     case Estado::DERROTA:
@@ -54,7 +54,7 @@ void Nivel2_3::actualizarCuentaRegresiva(float deltaTiempo) {
     }
 }
 
-void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
+void Nivel2_3::actualizarCombate(float deltaTiempo, const teclasPresionadas)
 {
     jugador->procesarInput(teclas);
     jugador->actualizar(deltaTiempo);
