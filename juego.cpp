@@ -132,13 +132,10 @@ void Juego::cambiarNivel(int numeroNivel)
         nivelActual = new Nivel_1(personajeActual);
         break;
     case 2:
-        // TODO: Implementar la creación del Nivel 2.
-        // nivelActual = new Nivel_2_3(personajeActual, 2);
-        // Por ahora, entramos en un estado de victoria para terminar el flujo.
-        estadoActual = GameState::VICTORIA;
+        nivelActual = new Nivel2_3(personajeActual, 2);
         break;
     case 3:
-        // TODO: Implementar la creación del Nivel 3.
+        nivelActual = new Nivel2_3(personajeActual, 3);
         break;
     default:
         // Si el nivel no existe, puede ser el fin del juego.
