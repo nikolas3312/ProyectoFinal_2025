@@ -54,21 +54,22 @@ void Nivel2_3::actualizarCuentaRegresiva(float deltaTiempo) {
     }
 }
 
-void Nivel2_3::actualizarCombate(float deltaTiempo, const teclasPresionadas)
+void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 {
     jugador->procesarInput(teclas);
     jugador->actualizar(deltaTiempo);
     enemigo->actualizar(deltaTiempo);
 
-    if (jugador->estaAtacando) {
-        hitboxesActivas.push_back(new Hitbox(jugador->getBoundingRect(), jugador->dañoBase, 0.2f));
-        jugador->estaAtacando = false;
+    if (jugador->getEstaAtacando()) {
+        hitboxesActivas.push_back(new Hitbox(jugador->getBoundingRect(), jugador->getDañoBase(), 0.2f));
+        jugador->setEstaAtacando(false);
     }
 
-    if (enemigo->estaAtacando) {
-        hitboxesActivas.push_back(new Hitbox(enemigo->getBoundingRect(), enemigo->dañoBase, 0.2f));
-        enemigo->estaAtacando = false;
+    if (enemigo->getEstaAtacando()) {
+        hitboxesActivas.push_back(new Hitbox(enemigo->getBoundingRect(), enemigo->getDañoBase(), 0.2f));
+        enemigo->setEstaAtacando(false);
     }
+
 
     for (auto h : hitboxesActivas)
         h->actualizar(deltaTiempo);
@@ -134,6 +135,6 @@ void Nivel2_3::limpiarHitboxes() {
     }
 }
 
-void Nivel2_3::recibirInput(const Qset<int> &teclas) {
+void Nivel2_3::recibirInput(const QSet<int>& teclas) {
     teclasPresionadas = teclas;
 }
