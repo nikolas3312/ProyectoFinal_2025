@@ -22,6 +22,9 @@ public:
     virtual void saltar();
     virtual void actualizar(float deltaTiempo) override;
     virtual void atacar() = 0; // Pure virtual, se define en hijos
+    float getDañoBase() const { return dañoBase; }
+    bool getEstaAtacando() const { return estaAtacando; }
+    void setEstaAtacando(bool valor) { estaAtacando = valor; }
 
 protected:
     void aplicarGravedad(float deltaTiempo);
