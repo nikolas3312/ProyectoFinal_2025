@@ -30,7 +30,7 @@ private:
     int numeroNivel; // esta es para saber si es contra ten shin han o piccolo
 
     void actualizarCuentaRegresiva(float deltaTiempo);
-    void actualizarCombate(float deltaTiempo, const teclasPresionadas);
+    void actualizarCombate(float deltaTiempo, const QSet<int>& teclas);
     void revisarColisiones();
     void limpiarHitboxes();
 
