@@ -45,6 +45,9 @@ public:
      */
     Luchador* getPropietario() const;
 
+    float getDanoQueProvoca() const { return danoQueProvoca; }
+
+
 private:
     float danoQueProvoca;
     float duracionVida; // El tiempo que le queda de vida a la hitbox.
