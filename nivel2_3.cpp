@@ -73,7 +73,7 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
         float hitboxAlto = 20.0f;
 
         // Se llama al constructor de Hitbox con los 7 argumentos correctos.
-        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, jugador->getDanoBase(), 0.2f, jugador));
+        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, jugador->getDañoBase(), 0.2f, jugador));
 
         jugador->setEstaAtacando(false);
     }
@@ -89,7 +89,7 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
         float hitboxAlto = 20.0f;
 
         // Se llama al constructor con los 7 argumentos correctos.
-        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, enemigo->getDanoBase(), 0.2f, enemigo));
+        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, enemigo->getDañoBase(), 0.2f, enemigo));
 
         enemigo->setEstaAtacando(false);
     }
@@ -124,7 +124,7 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect)
     for (auto h : hitboxesActivas) {
         // Asumiendo que Hitbox tiene un método para saber si está activa
         // y para obtener su rectángulo. En nuestro diseño sería h->getBoundingRect().
-        if (h->estaActiva())
+        if (!h->haExpirado())
             painter->drawRect(h->getBoundingRect());
     }
     //dibujar UI
@@ -144,14 +144,15 @@ bool Nivel2_3::estaTerminado() const {
 
 void Nivel2_3::revisarColisiones() {
     for (auto h : hitboxesActivas) {
-        if (!h->estaActiva()) continue;
+        if (!h->haExpirado())
+         continue;
 
-        if (h->rect.intersects(jugador->getBoundingRect())) {
-            jugador->recibirDaño(h->daño);
+        if (h->getBoundingRect().intersects(jugador->getBoundingRect())) {
+            jugador->recibirDaño(h->getDanoQueProvoca());
         }
 
-        if (h->rect.intersects(enemigo->getBoundingRect())) {
-            enemigo->recibirDaño(h->daño);
+        if (h->getBoundingRect().intersects(enemigo->getBoundingRect())) {
+            enemigo->recibirDaño(h->getDanoQueProvoca());
         }
     }
 }
@@ -159,7 +160,7 @@ void Nivel2_3::revisarColisiones() {
 void Nivel2_3::limpiarHitboxes() {
     auto it = hitboxesActivas.begin();
     while (it != hitboxesActivas.end()) {
-        if (!(*it)->estaActiva()) {
+        if ((*it)->haExpirado()) {
             delete *it;
             it = hitboxesActivas.erase(it);
         } else {
