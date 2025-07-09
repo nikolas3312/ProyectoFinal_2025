@@ -51,7 +51,13 @@ QRectF Entidad::getBoundingRect() const
 {
     return QRectF(posX, posY, ancho, alto);
 }
+void Entidad::setVelocidadY(float vy) {
+    this->velocidadY = vy;
+}
 
+float Entidad::getVelocidadY() const {
+    return velocidadY;
+}
 /**
  * @brief Obtiene la posición actual (esquina superior izquierda) del objeto.
  * @return Un QPointF que representa la posición (x, y).

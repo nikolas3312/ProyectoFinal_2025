@@ -43,7 +43,7 @@ void Nivel_1::inicializar()
 {
     // Crea al jugador en el centro de la parte inferior de la pantalla.
     // El sprite a usar se basará en 'personajeElegido'.
-    jugador = new PersonajeJugador(/* ... coordenadas iniciales ... */);
+    jugador = new PersonajeJugador(380.0f, 500.0f, 40.0f, 40.0f);
 
     // Setea el fondo (esto se haría en la clase 'Juego' o en el gestor de renderizado)
     // setFondo(":/sprites/fondo_ciudad.png");
@@ -87,8 +87,9 @@ void Nivel_1::actualizarJugando(float deltaTiempo)
     // Actualizar jugador y obstáculos
     jugador->actualizar(deltaTiempo);
     for (Obstaculo* obs : obstaculos) {
-        obs->velocidadY += aceleracionGlobal * deltaTiempo; // Aumenta la velocidad
-        obs->actualizar(deltaTiempo);
+        // Calcula la nueva velocidad y luego asígnala con el método público.
+        float nuevaVelocidadY = obs->getVelocidadY() + (aceleracionGlobal * deltaTiempo);
+        obs->setVelocidadY(nuevaVelocidadY);
     }
 
     // Generar nuevos obstáculos
@@ -163,7 +164,7 @@ void Nivel_1::reiniciar()
 /**
  * @brief Dibuja todos los elementos en pantalla.
  */
-void Nivel_1::dibujar(QPainter* painter)
+void Nivel_1::dibujar(QPainter* painter, const QRectF& ventanaRect)
 {
     // Dibujar el fondo (gestionado por una clase superior)
     // ...
@@ -187,6 +188,6 @@ void Nivel_1::dibujar(QPainter* painter)
     if (estadoActual == Estado::CUENTA_REGRESIVA) {
         painter->setFont(QFont("Arial", 72, QFont::Bold));
         int num = static_cast<int>(ceil(tiempoCuentaRegresiva));
-        painter->drawText(rectoDeLaVentana, QString::number(num)); // Centrar el texto
+        painter->drawText(ventanaRect, QString::number(num)); // Centrar el texto
     }
 }

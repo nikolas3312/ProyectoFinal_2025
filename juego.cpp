@@ -18,11 +18,12 @@ constexpr int INTERVALO_ACTUALIZACION = 16;
  * Inicializa el estado, el temporizador y las variables de gestión.
  */
 Juego::Juego(QMainWindow* ventana)
+    // CORRECCIÓN: La lista ahora sigue el orden de declaración en Juego.h
     : estadoActual(GameState::MENU),
-    nivelActual(nullptr),
     ventanaPrincipal(ventana),
     gameLoopTimer(new QTimer()),
-    personajeActual(PersonajeSeleccionado::GOKU) // Valor por defecto
+    nivelActual(nullptr),
+    personajeActual(PersonajeSeleccionado::GOKU)
 {
     // Conexión de la señal 'timeout' del temporizador con el bucle 'actualizar'.
     // Usamos una expresión lambda para llamar al método de nuestra instancia.
@@ -95,8 +96,10 @@ void Juego::actualizar()
 
 /**
  * @brief Dibuja la escena actual dependiendo del estado del juego.
+ * @param painter Puntero al QPainter que se usará para dibujar.
+ * @param ventanaRect El rectángulo de la ventana, para cálculos de UI.
  */
-void Juego::dibujar(QPainter* painter)
+void Juego::dibujar(QPainter* painter, const QRectF& ventanaRect)
 {
     if (painter == nullptr) return;
 
@@ -106,7 +109,7 @@ void Juego::dibujar(QPainter* painter)
         break;
     case GameState::JUGANDO:
         if (nivelActual != nullptr) {
-            nivelActual->dibujar(painter);
+            nivelActual->dibujar(painter, ventanaRect);
         }
         break;
     case GameState::VICTORIA:
@@ -117,7 +120,6 @@ void Juego::dibujar(QPainter* painter)
         break;
     }
 }
-
 /**
  * @brief Destruye el nivel actual y crea una nueva instancia del nivel solicitado.
  */

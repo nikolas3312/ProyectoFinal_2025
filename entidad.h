@@ -57,7 +57,8 @@ public:
      * @note Método const, no modifica el estado del objeto.
      */
     QPointF getPosicion() const;
-
+    void setVelocidadY(float vy);
+    float getVelocidadY() const;
 protected:
     // Atributos protegidos para permitir el acceso directo por parte de las clases derivadas
     // en sus cálculos de física y movimiento, lo cual es más eficiente que usar setters.

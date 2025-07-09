@@ -33,7 +33,7 @@ public:
      * @brief Dibuja todos los elementos del nivel en la pantalla.
      * @param painter Puntero al QPainter que se usará para las operaciones de dibujo.
      */
-    virtual void dibujar(QPainter* painter) = 0;
+    virtual void dibujar(QPainter* painter, const QRectF& ventanaRect) = 0;
 
     /**
      * @brief Comprueba si la condición de finalización del nivel se ha cumplido.

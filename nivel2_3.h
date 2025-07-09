@@ -42,7 +42,7 @@ public:
 
     void inicializar() override;
     void actualizar(float deltaTiempo) override;
-    void dibujar(QPainter* painter) override;
+    void dibujar(QPainter* painter, const QRectF& ventanaRect) override;
     bool estaTerminado() const override;
 
 

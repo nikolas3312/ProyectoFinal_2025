@@ -60,19 +60,44 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
     jugador->actualizar(deltaTiempo);
     enemigo->actualizar(deltaTiempo);
 
+    // --- Creación de Hitbox para el Jugador ---
     if (jugador->getEstaAtacando()) {
-        hitboxesActivas.push_back(new Hitbox(jugador->getBoundingRect(), jugador->getDañoBase(), 0.2f));
+        // Obtenemos el rectángulo del jugador para calcular la posición de la hitbox.
+        QRectF rectJugador = jugador->getBoundingRect();
+
+        // NOTA: Aquí se debería calcular una posición y tamaño adecuados para el puño/patada.
+        // Por ahora, para que compile, usamos los datos del rectángulo del jugador.
+        float hitboxX = rectJugador.x() + rectJugador.width(); // Ejemplo: hitbox a la derecha del jugador
+        float hitboxY = rectJugador.y() + 20;                  // Ejemplo: a la altura del torso
+        float hitboxAncho = 40.0f;
+        float hitboxAlto = 20.0f;
+
+        // Se llama al constructor de Hitbox con los 7 argumentos correctos.
+        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, jugador->getDanoBase(), 0.2f, jugador));
+
         jugador->setEstaAtacando(false);
     }
 
+    // --- Creación de Hitbox para el Enemigo ---
     if (enemigo->getEstaAtacando()) {
-        hitboxesActivas.push_back(new Hitbox(enemigo->getBoundingRect(), enemigo->getDañoBase(), 0.2f));
+        // Hacemos lo mismo para el enemigo.
+        QRectF rectEnemigo = enemigo->getBoundingRect();
+
+        float hitboxX = rectEnemigo.x() - 40.0f; // Ejemplo: hitbox a la izquierda del enemigo
+        float hitboxY = rectEnemigo.y() + 20;
+        float hitboxAncho = 40.0f;
+        float hitboxAlto = 20.0f;
+
+        // Se llama al constructor con los 7 argumentos correctos.
+        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, enemigo->getDanoBase(), 0.2f, enemigo));
+
         enemigo->setEstaAtacando(false);
     }
 
-
-    for (auto h : hitboxesActivas)
+    // El resto de la función permanece igual.
+    for (auto h : hitboxesActivas) {
         h->actualizar(deltaTiempo);
+    }
 
     revisarColisiones();
     limpiarHitboxes();
@@ -83,7 +108,12 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
         estadoActual = Estado::VICTORIA;
 }
 
-void Nivel2_3::dibujar(QPainter* painter) {
+
+void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect)
+{
+    // Esta línea le dice al compilador que sabes que no usarás 'ventanaRect' aquí.
+    Q_UNUSED(ventanaRect);
+
     painter->setBrush(Qt::blue);
     painter->drawRect(jugador->getBoundingRect());
 
@@ -92,13 +122,16 @@ void Nivel2_3::dibujar(QPainter* painter) {
     //dibujar hitboxes
     painter->setBrush(Qt::yellow);
     for (auto h : hitboxesActivas) {
+        // Asumiendo que Hitbox tiene un método para saber si está activa
+        // y para obtener su rectángulo. En nuestro diseño sería h->getBoundingRect().
         if (h->estaActiva())
-            painter->drawRect(h->rect);
+            painter->drawRect(h->getBoundingRect());
     }
     //dibujar UI
     painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 24, QFont::Bold));
 
+    // El estado del nivel debe tener su propia lógica de cuenta regresiva si es necesaria.
     if (estadoActual == Estado::CUENTA_REGRESIVA) {
         int num = static_cast<int>(ceil(tiempoCuentaRegresiva));
         painter->drawText(300, 200, QString::number(num));

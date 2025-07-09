@@ -1,13 +1,51 @@
-#include "hitbox.h"
+#include "Hitbox.h"
+#include "Luchador.h" // Se incluye aquí, no en el .h
 
-Hitbox::Hitbox(const QRectF& r, float d, float dur)
-    : rect(r), daño(d), duracion(dur), tiempoActual(0)
-{}
-
-bool Hitbox::estaActiva() const {
-    return tiempoActual < duracion;
+/**
+ * @brief Constructor de Hitbox.
+ * Llama al constructor de Entidad y luego inicializa sus propios atributos.
+ */
+Hitbox::Hitbox(float x, float y, float ancho, float alto, float dano, float duracion, Luchador* propietario)
+    // Llama al constructor de la clase padre 'Entidad'.
+    : Entidad(x, y, ancho, alto),
+    danoQueProvoca(dano),
+    duracionVida(duracion),
+    propietario(propietario)
+{
+    // El cuerpo del constructor puede estar vacío.
 }
 
-void Hitbox::actualizar(float deltaTiempo) {
-    tiempoActual += deltaTiempo;
+/**
+ * @brief Destructor de la clase Hitbox.
+ */
+Hitbox::~Hitbox()
+{
+}
+
+/**
+ * @brief Actualiza el estado de la hitbox, principalmente su duración.
+ * @param deltaTiempo El tiempo transcurrido desde el último fotograma.
+ */
+void Hitbox::actualizar(float deltaTiempo)
+{
+    // La hitbox no se mueve, solo su tiempo de vida se reduce.
+    duracionVida -= deltaTiempo;
+}
+
+/**
+ * @brief Comprueba si la hitbox ya no debe estar activa.
+ * @return true si el tiempo de vida es menor o igual a cero.
+ */
+bool Hitbox::haExpirado() const
+{
+    return duracionVida <= 0;
+}
+
+/**
+ * @brief Devuelve un puntero al luchador que originó el ataque.
+ * @return Puntero al Luchador propietario.
+ */
+Luchador* Hitbox::getPropietario() const
+{
+    return propietario;
 }

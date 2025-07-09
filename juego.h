@@ -45,7 +45,7 @@ public:
      * @brief Dibuja la escena actual del juego.
      * @param painter Puntero al QPainter que se usará para dibujar.
      */
-    void dibujar(QPainter* painter);
+    void dibujar(QPainter* painter, const QRectF& ventanaRect);
 
     // --- Métodos para ser llamados desde la UI (ej. botones del menú) ---
 
