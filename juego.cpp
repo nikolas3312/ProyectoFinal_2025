@@ -7,7 +7,9 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include <QMainWindow>
-#include <stdexcept> // Para std::runtime_error
+#include <QPainter>
+#include <stdexcept>// Para std::runtime_error
+#include <QDebug>
 
 // --- Constantes de configuración del Juego ---
 // Tiempo de actualización del bucle principal en milisegundos (aprox. 60 FPS).
@@ -56,7 +58,7 @@ void Juego::iniciar()
 void Juego::iniciarNuevaPartida(PersonajeSeleccionado personaje)
 {
     this->personajeActual = personaje;
-    cambiarNivel(1);
+    cambiarNivel(2);
 }
 
 /**
@@ -65,6 +67,9 @@ void Juego::iniciarNuevaPartida(PersonajeSeleccionado personaje)
 void Juego::procesarInput(QKeyEvent* evento)
 {
     if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
+        teclasPresionadas.insert(evento->key());
+
+        nivelActual->recibirInput(teclasPresionadas);
         // TODO: Delegar el evento al nivel o al jugador para que lo procese.
         // Por ejemplo: nivelActual->procesarInput(evento);
     }
@@ -150,4 +155,11 @@ void Juego::cambiarNivel(int numeroNivel)
         nivelActual->inicializar();
         estadoActual = GameState::JUGANDO;
     }
+}
+
+void Juego::soltarTecla(QKeyEvent *evento) {
+    teclasPresionadas.remove(evento->key());
+    if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
+        nivelActual->recibirInput(teclasPresionadas);
+}
 }
