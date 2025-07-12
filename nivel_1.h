@@ -44,6 +44,8 @@ private:
     void generarObstaculos(float deltaTiempo);
     void revisarColisiones();
     void reiniciar(); // Reinicia el nivel si el jugador choca.
+    void recibirInput(const QSet<int>& teclas) override;
+
 
     // Enum para controlar los estados internos del nivel.
     enum class Estado {
