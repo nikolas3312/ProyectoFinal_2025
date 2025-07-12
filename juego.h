@@ -6,10 +6,13 @@ class QMainWindow;
 class QTimer;
 class QPainter;
 class QKeyEvent;
+#include <QSet>
+
 
 // Incluimos las definiciones de nuestras clases de lógica.
 #include "Nivel.h"
 #include "Nivel_1.h" // Necesario para el enum 'PersonajeSeleccionado'.
+#include "nivel2_3.h"
 
 /**
  * @class Juego
@@ -54,18 +57,19 @@ public:
      * @param personaje El personaje elegido por el jugador en el menú.
      */
     void iniciarNuevaPartida(PersonajeSeleccionado personaje);
-
-private:
-    /**
-     * @brief El bucle principal de actualización, llamado por el QTimer.
-     */
-    void actualizar();
-
     /**
      * @brief Cambia el nivel actual del juego.
      * @param numeroNivel El identificador del nuevo nivel a cargar.
      */
     void cambiarNivel(int numeroNivel);
+    void soltarTecla(QKeyEvent* evento);
+private:
+    /**
+     * @brief El bucle principal de actualización, llamado por el QTimer.
+     */
+    void actualizar();
+    QSet<int> teclasPresionadas;
+
 
     // Enum para los estados generales del juego.
     enum class GameState {
