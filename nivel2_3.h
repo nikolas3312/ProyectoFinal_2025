@@ -9,6 +9,7 @@
 #include <vector>
 #include <QPainter>
 #include <QSet>
+#include <QPixmap>
 
 
 class Nivel2_3 : public Nivel {
@@ -35,6 +36,7 @@ private:
     void limpiarHitboxes();
 
     QSet<int> teclasPresionadas;
+    QPixmap fondoEscenario;
 
 public:
     Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel);
