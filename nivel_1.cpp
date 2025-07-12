@@ -191,3 +191,8 @@ void Nivel_1::dibujar(QPainter* painter, const QRectF& ventanaRect)
         painter->drawText(ventanaRect, QString::number(num)); // Centrar el texto
     }
 }
+
+void Nivel_1::recibirInput(const QSet<int>& /*teclas*/)
+{
+    // No se usa en este nivel
+}
