@@ -31,6 +31,7 @@ protected:
      */
     void keyPressEvent(QKeyEvent *event) override;
 
+    void keyReleaseEvent(QKeyEvent *event) override;
 private:
     // Puntero a la instancia principal de la lógica del juego.
     Juego* juego;
