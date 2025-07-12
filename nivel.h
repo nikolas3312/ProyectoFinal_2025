@@ -41,4 +41,9 @@ public:
      * @note Método const, no modifica el estado del nivel.
      */
     virtual bool estaTerminado() const = 0;
+    /**
+     * @brief Método para recibir el conjunto de teclas presionadas.
+     * @param teclas Conjunto de teclas activas.
+     */
+    virtual void recibirInput(const QSet<int>& teclas) = 0;
 };
