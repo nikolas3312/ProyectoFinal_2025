@@ -7,7 +7,8 @@ Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
     jugador(nullptr),
     enemigo(nullptr),
     tiempoCuentaRegresiva(3.0f),
-    numeroNivel(numeroNivel)
+    numeroNivel(numeroNivel),
+    fondoEscenario(":/images/Fondo_torneo.jpeg")
 {
 }
 
@@ -112,11 +113,17 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect)
 {
     // Esta línea le dice al compilador que sabes que no usarás 'ventanaRect' aquí.
-    Q_UNUSED(ventanaRect);
 
+
+    //Fondo
+    if (!fondoEscenario.isNull()) {
+        painter->drawPixmap(ventanaRect.toRect(), fondoEscenario);
+    }
+
+    //Jugador
     painter->setBrush(Qt::blue);
     painter->drawRect(jugador->getBoundingRect());
-
+    //Enemigo
     painter->setBrush(Qt::red);
     painter->drawRect(enemigo->getBoundingRect());
     //dibujar hitboxes
@@ -136,6 +143,18 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect)
         int num = static_cast<int>(ceil(tiempoCuentaRegresiva));
         painter->drawText(300, 200, QString::number(num));
     }
+    //Mostrar texto final (victoria o derrota)
+    if (estadoActual == Estado::VICTORIA) {
+        painter->setPen(Qt::white);
+        painter->setFont(QFont("Arial", 48, QFont::Bold));
+        painter->drawText(200, 300, "¡Victoria!");
+    }
+    else if (estadoActual == Estado::DERROTA) {
+        painter->setPen(Qt::white);
+        painter->setFont(QFont("Arial", 48, QFont::Bold));
+        painter->drawText(200, 300, "Derrota");
+    }
+
 }
 
 bool Nivel2_3::estaTerminado() const {
