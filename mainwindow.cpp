@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Para probar directamente el Nivel 1 sin un menú, podemos llamar a esto.
     // Elige un personaje para la prueba.
     juego->iniciarNuevaPartida(PersonajeSeleccionado::GOKU);
+    juego->cambiarNivel(2);
 }
 
 /**
@@ -59,5 +60,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (juego != nullptr) {
         juego->procesarInput(event);
+    }
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    if (juego != nullptr) {
+        juego->soltarTecla(event);
     }
 }
