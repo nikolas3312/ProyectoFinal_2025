@@ -29,13 +29,13 @@ void PersonajeJugador::dibujar(QPainter* painter)
 void PersonajeJugador::procesarInput(const QSet<int>& teclas) {
     velocidadX = 0.0f;
 
-    if (teclas.contains(Qt::Key_Left)) {
+    if (teclas.contains(Qt::Key_A)) {
         velocidadX = -150.0f;
     }
-    if (teclas.contains(Qt::Key_Right)) {
+    if (teclas.contains(Qt::Key_D)) {
         velocidadX = 150.0f;
     }
-    if (teclas.contains(Qt::Key_Up) && estaEnElSuelo()) {
+    if (teclas.contains(Qt::Key_W) && estaEnElSuelo()) {
         saltar();
     }
     // --- Ataque puño ---
