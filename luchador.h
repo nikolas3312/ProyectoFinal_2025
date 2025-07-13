@@ -32,6 +32,7 @@ public:
 
 
 
+
 protected:
     void aplicarGravedad(float deltaTiempo);
     bool estaEnElSuelo() const;
