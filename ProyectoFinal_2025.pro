@@ -20,7 +20,8 @@ SOURCES += \
     nivel2_3.cpp \
     nivel_1.cpp \
     obstaculo.cpp \
-    personajejugador.cpp
+    personajejugador.cpp \
+    personajejugadornivel_1.cpp
 
 HEADERS += \
     GameTypes.h \
@@ -34,7 +35,8 @@ HEADERS += \
     nivel2_3.h \
     nivel_1.h \
     obstaculo.h \
-    personajejugador.h
+    personajejugador.h \
+    personajejugadornivel_1.h
 
 FORMS += \
     mainwindow.ui

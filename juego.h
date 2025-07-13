@@ -64,6 +64,8 @@ public:
     void cambiarNivel(int numeroNivel);
     void soltarTecla(QKeyEvent* evento);
     const std::map<std::string, QPixmap>& getSprites() const;
+    void procesarInput(QKeyEvent* evento);
+    void procesarInputLiberado(QKeyEvent* evento);
 private:
     /**
      * @brief El bucle principal de actualización, llamado por el QTimer.
