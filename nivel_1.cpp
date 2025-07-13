@@ -164,7 +164,7 @@ void Nivel_1::reiniciar()
 /**
  * @brief Dibuja todos los elementos en pantalla.
  */
-void Nivel_1::dibujar(QPainter* painter, const QRectF& ventanaRect)
+void Nivel_1::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites)
 {
     // Dibujar el fondo (gestionado por una clase superior)
     // ...

@@ -11,9 +11,9 @@ class QKeyEvent;
 
 // Incluimos las definiciones de nuestras clases de lógica.
 #include "Nivel.h"
-#include "Nivel_1.h" // Necesario para el enum 'PersonajeSeleccionado'.
+#include "GameTypes.h"
 #include "nivel2_3.h"
-
+#include <QPixmap>
 /**
  * @class Juego
  * @brief Clase principal que gestiona el flujo y la lógica general del juego.
@@ -48,7 +48,7 @@ public:
      * @brief Dibuja la escena actual del juego.
      * @param painter Puntero al QPainter que se usará para dibujar.
      */
-    void dibujar(QPainter* painter, const QRectF& ventanaRect);
+    void dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites);
 
     // --- Métodos para ser llamados desde la UI (ej. botones del menú) ---
 
@@ -63,13 +63,15 @@ public:
      */
     void cambiarNivel(int numeroNivel);
     void soltarTecla(QKeyEvent* evento);
+    const std::map<std::string, QPixmap>& getSprites() const;
 private:
     /**
      * @brief El bucle principal de actualización, llamado por el QTimer.
      */
     void actualizar();
     QSet<int> teclasPresionadas;
-
+    void cargarRecursos();
+    std::map<std::string, QPixmap> sprites;
 
     // Enum para los estados generales del juego.
     enum class GameState {

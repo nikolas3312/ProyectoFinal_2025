@@ -23,6 +23,7 @@ SOURCES += \
     personajejugador.cpp
 
 HEADERS += \
+    GameTypes.h \
     enemigo.h \
     entidad.h \
     hitbox.h \

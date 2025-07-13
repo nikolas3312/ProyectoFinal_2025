@@ -110,7 +110,7 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 }
 
 
-void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect)
+void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites)
 {
     // Esta línea le dice al compilador que sabes que no usarás 'ventanaRect' aquí.
 

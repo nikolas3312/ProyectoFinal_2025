@@ -44,7 +44,7 @@ public:
 
     void inicializar() override;
     void actualizar(float deltaTiempo) override;
-    void dibujar(QPainter* painter, const QRectF& ventanaRect) override;
+    void dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites) override;
     bool estaTerminado() const override;
 
 

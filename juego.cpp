@@ -3,7 +3,7 @@
 // Se incluyen las cabeceras de los objetos que esta clase debe conocer.
 #include "Nivel_1.h"
 #include "Nivel2_3.h"
-
+#include <QPixmap>
 #include <QTimer>
 #include <QKeyEvent>
 #include <QMainWindow>
@@ -32,8 +32,31 @@ Juego::Juego(QMainWindow* ventana)
     QObject::connect(gameLoopTimer, &QTimer::timeout, [this]() {
         this->actualizar();
     });
+    cargarRecursos();
 }
+void Juego::cargarRecursos()
+{
+    // Carga los sprites usando la ruta del archivo de recursos (:/)
+    // y los nombres exactos de tus archivos de imagen.
 
+    // --- Fondos ---
+    sprites["fondo_nivel1"] = QPixmap(":/Nivel_1/fondoNivel_1.png");
+
+    // --- Personajes Jugables ---
+    sprites["goku"]    = QPixmap(":/Nivel_1/goku-removebg-preview.png");
+    sprites["krilin"]  = QPixmap(":/Nivel_1/krilin-removebg-preview.png");
+    sprites["yamcha"]  = QPixmap(":/Nivel_1/yamcha-removebg-preview.png");
+    // Nota: Falta el sprite para Tenshinhan en la lista de archivos.
+
+    // --- Obstáculos ---
+    sprites["obstaculo_coche"] = QPixmap(":/Nivel_1/carro-removebg-preview.png");
+    sprites["obstaculo_capsula"]  = QPixmap(":/Nivel_1/Dron-removebg-preview.png");
+    sprites["obstaculo_pajaro"]= QPixmap(":/Nivel_1/pajaro-removebg-preview (1).png");
+    // --- Sprites para el Menú de Selección ---
+    sprites["portada_goku"]   = QPixmap(":/Nivel_1/portadaGoku.png");
+    sprites["portada_krilin"] = QPixmap(":/Nivel_1/portadaKrilin.png");
+    sprites["portada_yamcha"] = QPixmap(":/Nivel_1/portadaYamcha.png");
+}
 /**
  * @brief Destructor. Libera la memoria del nivel actual y del temporizador.
  */
@@ -104,17 +127,19 @@ void Juego::actualizar()
  * @param painter Puntero al QPainter que se usará para dibujar.
  * @param ventanaRect El rectángulo de la ventana, para cálculos de UI.
  */
-void Juego::dibujar(QPainter* painter, const QRectF& ventanaRect)
+void Juego::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites)
 {
     if (painter == nullptr) return;
 
     switch (estadoActual) {
     case GameState::MENU:
-        // TODO: Dibujar la pantalla del menú principal.
+        // TODO: Dibujar la pantalla del menú principal usando los sprites.
+        // Ejemplo: painter->drawPixmap(0, 0, sprites.at("portada_goku"));
         break;
     case GameState::JUGANDO:
         if (nivelActual != nullptr) {
-            nivelActual->dibujar(painter, ventanaRect);
+            // CAMBIO 2: Pasar el mapa de sprites al método dibujar del nivel.
+            nivelActual->dibujar(painter, ventanaRect, sprites);
         }
         break;
     case GameState::VICTORIA:
@@ -156,7 +181,9 @@ void Juego::cambiarNivel(int numeroNivel)
         estadoActual = GameState::JUGANDO;
     }
 }
-
+const std::map<std::string, QPixmap>& Juego::getSprites() const {
+    return sprites;
+}
 void Juego::soltarTecla(QKeyEvent *evento) {
     teclasPresionadas.remove(evento->key());
     if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {

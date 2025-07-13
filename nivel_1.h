@@ -4,14 +4,7 @@
 #include "PersonajeJugador.h"
 #include "Obstaculo.h"
 #include <vector>
-
-// Enum para saber qué personaje se seleccionó en el menú.
-enum class PersonajeSeleccionado {
-    GOKU,
-    KRILIN,
-    YAMCHA,
-    TENSHINHAN
-};
+#include "GameTypes.h"
 
 /**
  * @class Nivel_1
@@ -34,7 +27,7 @@ public:
     // --- Implementación de los métodos virtuales de Nivel ---
     void inicializar() override;
     void actualizar(float deltaTiempo) override;
-    void dibujar(QPainter* painter, const QRectF& ventanaRect) override;
+    void dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites) override;
     bool estaTerminado() const override;
 
 private:

@@ -1,1 +1,18 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/Nivel_1">
+        <file>Sprites.qrc</file>
+        <file>fondoNivel_1.png</file>
+        <file>Game Boy Advance - Dragon Ball Z The Legacy of Goku II - George Town 2.png</file>
+        <file>goku-removebg-preview.png</file>
+        <file>krilin-removebg-preview.png</file>
+        <file>personajesDB-removebg-preview.png</file>
+        <file>portadasPersonajes-removebg-preview.png</file>
+        <file>yamcha-removebg-preview.png</file>
+        <file>carro-removebg-preview.png</file>
+        <file>Dron-removebg-preview.png</file>
+        <file>pajaro-removebg-preview (1).png</file>
+        <file>portadaYamcha.png</file>
+        <file>portadaGoku.png</file>
+        <file>portadaKrilin.png</file>
+    </qresource>
+</RCC>
