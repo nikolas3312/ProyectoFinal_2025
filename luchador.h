@@ -13,6 +13,8 @@ protected:
     float velocidadSalto;
     bool enSuelo;
     int direccion;
+    bool enDefensa;
+    float tiempoDaño;
 public:
     Luchador(float x, float y, float ancho, float alto);
     virtual ~Luchador() {}
@@ -29,6 +31,9 @@ public:
     float getVida() const { return vida; }
     int getDireccion() const { return direccion; }
     void setDireccion(int dir) { direccion = dir; }
+    void setDefensa(bool estado) { enDefensa = estado; }
+    bool getEnDefensa() const { return enDefensa; }
+    float getTiempoDanio() const { return tiempoDaño; }
 
 
 
