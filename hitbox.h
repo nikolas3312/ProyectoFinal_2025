@@ -22,9 +22,8 @@ public:
      * @param alto Alto de la hitbox.
      * @param dano Cantidad de daño que inflige.
      * @param duracion Tiempo en segundos que la hitbox permanecerá activa.
-     * @param propietario Puntero al Luchador que creó la hitbox.
      */
-    Hitbox(float x, float y, float ancho, float alto, float dano, float duracion, Luchador* propietario);
+    Hitbox(float x, float y, float ancho, float alto, float dano, float duracion, Entidad* duenio);
 
     // Destructor.
     ~Hitbox();
@@ -38,18 +37,12 @@ public:
      */
     bool haExpirado() const;
 
-    /**
-     * @brief Obtiene el luchador que generó esta hitbox.
-     * @return Puntero al Luchador propietario.
-     * @note Esencial para evitar que un luchador se haga daño a sí mismo.
-     */
-    Luchador* getPropietario() const;
-
     float getDanoQueProvoca() const { return danoQueProvoca; }
+    Entidad* getDuenio() const { return duenio; }
 
 
 private:
     float danoQueProvoca;
     float duracionVida; // El tiempo que le queda de vida a la hitbox.
-    Luchador* propietario; // Puntero al personaje que la creó.
+    Entidad* duenio;
 };
