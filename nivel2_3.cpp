@@ -7,8 +7,10 @@ Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
     jugador(nullptr),
     enemigo(nullptr),
     tiempoCuentaRegresiva(3.0f),
+    tiempoRestante(99.0f),
+    tiempoFinalizacion(3.0f),
     numeroNivel(numeroNivel),
-    fondoEscenario(":/images/Fondo_torneo.jpeg")
+    fondoEscenario("images/Fondo_torneo.jpeg")
 {
 }
 
@@ -24,13 +26,16 @@ void Nivel2_3::inicializar()
 {
     // Crear jugador
     jugador = new PersonajeJugador(100, 400, 50, 80);
+    jugador->setDireccion(1);  // Inicialmente mira a la derecha
 
     // Según el nivel, crear enemigo
     if (numeroNivel == 2) {
         enemigo = new Enemigo(500, 400, 50, 80);
+        enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
         // poner stats específicos de Ten Shin Han
     } else if (numeroNivel == 3) {
         enemigo = new Enemigo(500, 400, 50, 80);
+        enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
         // poner stats para Piccolo
     }
 }
@@ -45,8 +50,11 @@ void Nivel2_3::actualizar(float deltaTiempo) {
         break;
     case Estado::VICTORIA:
     case Estado::DERROTA:
+        if (tiempoFinalizacion <=0.0f) {
+
         break;
     }
+}
 }
 void Nivel2_3::actualizarCuentaRegresiva(float deltaTiempo) {
     tiempoCuentaRegresiva -= deltaTiempo;
@@ -57,18 +65,58 @@ void Nivel2_3::actualizarCuentaRegresiva(float deltaTiempo) {
 
 void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 {
+    // Actualizar dirección (mirada)
+    if (jugador->getPosX() < enemigo->getPosX())
+        jugador->setDireccion(1);
+    else
+        jugador->setDireccion(-1);
+
+    if (enemigo->getPosX() < jugador->getPosX())
+        enemigo->setDireccion(1);
+    else
+        enemigo->setDireccion(-1);
+
+
     jugador->procesarInput(teclas);
     jugador->actualizar(deltaTiempo);
+
+    // Movimiento simple enemigo: se acerca al jugador
+    if (enemigo->getPosX() > jugador->getPosX() + 60)
+        enemigo->setVelocidadX(-80.0f);
+    else if (enemigo->getPosX() < jugador->getPosX() - 60)
+        enemigo->setVelocidadX(80.0f);
+    else
+        enemigo->setVelocidadX(0.0f);
+
     enemigo->actualizar(deltaTiempo);
+
+    // Revisar colisión para que no se atraviesen
+    QRectF rectJugador = jugador->getBoundingRect();
+    QRectF rectEnemigo = enemigo->getBoundingRect();
+
+    if (rectJugador.intersects(rectEnemigo)) {
+        if (jugador->getPosX() < enemigo->getPosX()) {
+            jugador->setPosX(jugador->getPosX() - 5);
+            enemigo->setPosX(enemigo->getPosX() + 5);
+        } else {
+            jugador->setPosX(jugador->getPosX() + 5);
+            enemigo->setPosX(enemigo->getPosX() - 5);
+        }
+    }
 
     // --- Creación de Hitbox para el Jugador ---
     if (jugador->getEstaAtacando()) {
+        float hitboxX;
         // Obtenemos el rectángulo del jugador para calcular la posición de la hitbox.
         QRectF rectJugador = jugador->getBoundingRect();
 
         // NOTA: Aquí se debería calcular una posición y tamaño adecuados para el puño/patada.
         // Por ahora, para que compile, usamos los datos del rectángulo del jugador.
-        float hitboxX = rectJugador.x() + rectJugador.width(); // Ejemplo: hitbox a la derecha del jugador
+        if (jugador->getDireccion() == 1)
+            hitboxX = rectJugador.x() + rectJugador.width();
+        else
+            hitboxX = rectJugador.x() - 40.0f;
+
         float hitboxY = rectJugador.y() + 20;                  // Ejemplo: a la altura del torso
         float hitboxAncho = 40.0f;
         float hitboxAlto = 20.0f;
@@ -81,10 +129,15 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
     // --- Creación de Hitbox para el Enemigo ---
     if (enemigo->getEstaAtacando()) {
+        float hitboxX;
         // Hacemos lo mismo para el enemigo.
         QRectF rectEnemigo = enemigo->getBoundingRect();
 
-        float hitboxX = rectEnemigo.x() - 40.0f; // Ejemplo: hitbox a la izquierda del enemigo
+        if (enemigo->getDireccion() == 1)
+            hitboxX = rectEnemigo.x() + rectEnemigo.width();
+        else
+            hitboxX = rectEnemigo.x() - 40.0f;
+
         float hitboxY = rectEnemigo.y() + 20;
         float hitboxAncho = 40.0f;
         float hitboxAlto = 20.0f;
@@ -103,6 +156,12 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
     revisarColisiones();
     limpiarHitboxes();
 
+
+    // Cronómetro
+    tiempoRestante -= deltaTiempo;
+    if (tiempoRestante <= 0.0f)
+        estadoActual = Estado::DERROTA;
+
     if (!jugador->estaVivo())
         estadoActual = Estado::DERROTA;
     else if (!enemigo->estaVivo())
@@ -112,13 +171,8 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
 void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites)
 {
-    // Esta línea le dice al compilador que sabes que no usarás 'ventanaRect' aquí.
-
-
-    //Fondo
-    if (!fondoEscenario.isNull()) {
-        painter->drawPixmap(ventanaRect.toRect(), fondoEscenario);
-    }
+    // Fondo
+    painter->drawPixmap(ventanaRect.toRect(), fondoEscenario);
 
     //Jugador
     painter->setBrush(Qt::blue);
@@ -134,9 +188,17 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
         if (!h->haExpirado())
             painter->drawRect(h->getBoundingRect());
     }
-    //dibujar UI
+    // Barras de vida
+    painter->setBrush(Qt::green);
+    painter->drawRect(50, 50, jugador->getVida() * 2, 20);
+
+    painter->setBrush(Qt::red);
+    painter->drawRect(550, 50, enemigo->getVida() * 2, 20);
+
+    // Temporizador
     painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 24, QFont::Bold));
+    painter->drawText(370, 50, QString::number(static_cast<int>(tiempoRestante)));
 
     // El estado del nivel debe tener su propia lógica de cuenta regresiva si es necesaria.
     if (estadoActual == Estado::CUENTA_REGRESIVA) {
@@ -166,11 +228,11 @@ void Nivel2_3::revisarColisiones() {
         if (!h->haExpirado())
          continue;
 
-        if (h->getBoundingRect().intersects(jugador->getBoundingRect())) {
+        if (h->getDuenio() != jugador && h->getBoundingRect().intersects(jugador->getBoundingRect())) {
             jugador->recibirDaño(h->getDanoQueProvoca());
         }
 
-        if (h->getBoundingRect().intersects(enemigo->getBoundingRect())) {
+        if (h->getDuenio() != enemigo && h->getBoundingRect().intersects(enemigo->getBoundingRect())) {
             enemigo->recibirDaño(h->getDanoQueProvoca());
         }
     }

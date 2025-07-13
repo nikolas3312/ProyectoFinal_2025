@@ -28,6 +28,8 @@ private:
     Enemigo* enemigo;
     std::vector<Hitbox*> hitboxesActivas;
     float tiempoCuentaRegresiva;
+    float tiempoFinalizacion;
+    float tiempoRestante; //Para el cronometro de la pelea
     int numeroNivel; // esta es para saber si es contra ten shin han o piccolo
 
     void actualizarCuentaRegresiva(float deltaTiempo);

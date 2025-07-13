@@ -59,6 +59,13 @@ public:
     QPointF getPosicion() const;
     void setVelocidadY(float vy);
     float getVelocidadY() const;
+    float getPosX() const { return posX; }
+    float getPosY() const { return posY; }
+    void setVelocidadX(float vx) { velocidadX = vx; }
+    float getVelocidadX() const { return velocidadX; }
+    void setPosX(float x) { posX = x; }
+    void setPosY(float y) { posY = y; }
+
 protected:
     // Atributos protegidos para permitir el acceso directo por parte de las clases derivadas
     // en sus cálculos de física y movimiento, lo cual es más eficiente que usar setters.

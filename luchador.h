@@ -12,7 +12,7 @@ protected:
     float cooldownAtaque;
     float velocidadSalto;
     bool enSuelo;
-
+    int direccion;
 public:
     Luchador(float x, float y, float ancho, float alto);
     virtual ~Luchador() {}
@@ -21,10 +21,16 @@ public:
     virtual bool estaVivo() const;
     virtual void saltar();
     virtual void actualizar(float deltaTiempo) override;
-    virtual void atacar() = 0; // Pure virtual, se define en hijos
+    virtual void atacarPuño() = 0;
+    virtual void atacarPatada() = 0;
     float getDañoBase() const { return dañoBase; }
     bool getEstaAtacando() const { return estaAtacando; }
     void setEstaAtacando(bool valor) { estaAtacando = valor; }
+    float getVida() const { return vida; }
+    int getDireccion() const { return direccion; }
+    void setDireccion(int dir) { direccion = dir; }
+
+
 
 protected:
     void aplicarGravedad(float deltaTiempo);

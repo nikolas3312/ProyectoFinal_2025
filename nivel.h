@@ -46,4 +46,6 @@ public:
      * @param teclas Conjunto de teclas activas.
      */
     virtual void recibirInput(const QSet<int>& teclas) = 0;
+
+
 };

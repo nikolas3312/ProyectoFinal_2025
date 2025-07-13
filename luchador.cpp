@@ -5,10 +5,11 @@ Luchador::Luchador(float x, float y, float ancho, float alto)
     : Entidad(x, y, ancho, alto),
     vida(100.0f), dañoBase(10.0f),
     estaAtacando(false), cooldownAtaque(0.0f),
-    velocidadSalto(-500.0f), enSuelo(true)
+    velocidadSalto(-500.0f), enSuelo(true), direccion(1)
 {}
 
 void Luchador::recibirDaño(float daño) {
+
     vida -= daño;
     if (vida < 0) vida = 0;
 }
