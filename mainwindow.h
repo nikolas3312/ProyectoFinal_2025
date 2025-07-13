@@ -2,7 +2,7 @@
 
 #include <QMainWindow>
 #include "Juego.h" // Incluimos la cabecera de nuestro gestor de juego.
-
+#include <QPushButton>
 /**
  * @class MainWindow
  * @brief La ventana principal de la aplicación que contiene y renderiza el juego.
@@ -33,6 +33,14 @@ protected:
 
     void keyReleaseEvent(QKeyEvent *event) override;
 private:
+    void configurarUI(); // <--- AÑADE ESTA LÍNEA
+    void ocultarBotonesSeleccion(); // <--- AÑADE ESTA LÍNEA
+
+    // --- AÑADE LA DECLARACIÓN DE LOS BOTONES ---
+    QPushButton* gokuButton;
+    QPushButton* krilinButton;
+    QPushButton* yamchaButton;
+    QPushButton* retryButton;
     // Puntero a la instancia principal de la lógica del juego.
     Juego* juego;
 };
