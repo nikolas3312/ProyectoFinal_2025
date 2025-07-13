@@ -52,6 +52,10 @@ public:
 
     void recibirInput(const QSet<int>& teclas) override;
 
+    void procesarInput(QKeyEvent* evento) override;
+    void procesarInputLiberado(QKeyEvent* evento) override;
+
+
 };
 
 #endif // NIVEL2_3_H
