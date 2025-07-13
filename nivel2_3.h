@@ -49,7 +49,8 @@ public:
     void dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites) override;
     bool estaTerminado() const override;
 
-
+    void procesarInput(QKeyEvent* evento) override;
+    void procesarInputLiberado(QKeyEvent* evento) override;
     void recibirInput(const QSet<int>& teclas);
 
 };

@@ -43,19 +43,19 @@ void MainWindow::configurarUI()
 {
     // --- Creación del Menú de Selección de Personaje ---
     gokuButton = new QPushButton(this);
-    gokuButton->setIcon(QIcon(":/portadaGoku.png"));
+    gokuButton->setIcon(QIcon(":/Nivel_1/portadaGoku.png"));
     gokuButton->setIconSize(QSize(150, 150));
     gokuButton->setFixedSize(160, 160);
     gokuButton->move(100, 200);
 
     krilinButton = new QPushButton(this);
-    krilinButton->setIcon(QIcon(":/portadaKrilin.png"));
+    krilinButton->setIcon(QIcon(":/Nivel_1/portadaKrilin.png"));
     krilinButton->setIconSize(QSize(150, 150));
     krilinButton->setFixedSize(160, 160);
     krilinButton->move(320, 200);
 
     yamchaButton = new QPushButton(this);
-    yamchaButton->setIcon(QIcon(":/portadaYamcha.png"));
+    yamchaButton->setIcon(QIcon(":/Nivel_1/portadaYamcha.png"));
     yamchaButton->setIconSize(QSize(150, 150));
     yamchaButton->setFixedSize(160, 160);
     yamchaButton->move(540, 200);

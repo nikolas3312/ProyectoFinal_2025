@@ -81,23 +81,28 @@ void Juego::iniciar()
 void Juego::iniciarNuevaPartida(PersonajeSeleccionado personaje)
 {
     this->personajeActual = personaje;
-    cambiarNivel(2);
+    cambiarNivel(1);
 }
 
 /**
  * @brief Procesa la entrada de teclado y la delega al nivel actual si es pertinente.
  */
+// En Juego.cpp
+
 void Juego::procesarInput(QKeyEvent* evento)
 {
     if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
-        teclasPresionadas.insert(evento->key());
-
-        nivelActual->recibirInput(teclasPresionadas);
-        // TODO: Delegar el evento al nivel o al jugador para que lo procese.
-        // Por ejemplo: nivelActual->procesarInput(evento);
+        nivelActual->procesarInput(evento);
     }
 }
 
+// --- AÑADE ESTA NUEVA FUNCIÓN ---
+void Juego::procesarInputLiberado(QKeyEvent* evento)
+{
+    if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
+        nivelActual->procesarInputLiberado(evento);
+    }
+}
 /**
  * @brief Bucle principal de actualización, llamado 60 veces por segundo por el QTimer.
  */
@@ -183,6 +188,12 @@ void Juego::cambiarNivel(int numeroNivel)
 }
 const std::map<std::string, QPixmap>& Juego::getSprites() const {
     return sprites;
+}
+Juego::GameState Juego::getEstado() const {
+    return estadoActual;
+}
+PersonajeSeleccionado Juego::getPersonajeActual() const {
+    return personajeActual;
 }
 void Juego::soltarTecla(QKeyEvent *evento) {
     teclasPresionadas.remove(evento->key());

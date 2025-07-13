@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QPainter>
-
+#include <QKeyEvent>
 /**
  * @class Nivel
  * @brief Clase base abstracta que define la interfaz para todos los niveles del juego.
@@ -47,5 +47,16 @@ public:
      */
     virtual void recibirInput(const QSet<int>& teclas) = 0;
 
+    /**
+     * @brief Procesa la entrada de teclado cuando una tecla es presionada.
+     * @param evento El evento de teclado de Qt.
+     */
+    virtual void procesarInput(QKeyEvent* evento) = 0;
+
+    /**
+     * @brief Procesa la entrada de teclado cuando una tecla es liberada.
+     * @param evento El evento de teclado de Qt.
+     */
+    virtual void procesarInputLiberado(QKeyEvent* evento) = 0;
 
 };

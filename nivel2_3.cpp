@@ -218,7 +218,8 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
     }
 
 }
-
+void Nivel2_3::procesarInput(QKeyEvent* evento) { Q_UNUSED(evento); }
+void Nivel2_3::procesarInputLiberado(QKeyEvent* evento) { Q_UNUSED(evento); }
 bool Nivel2_3::estaTerminado() const {
     return estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA;
 }
