@@ -50,11 +50,9 @@ void Nivel2_3::actualizar(float deltaTiempo) {
         break;
     case Estado::VICTORIA:
     case Estado::DERROTA:
-        if (tiempoFinalizacion <=0.0f) {
-
+        tiempoFinalizacion -= deltaTiempo;
         break;
     }
-}
 }
 void Nivel2_3::actualizarCuentaRegresiva(float deltaTiempo) {
     tiempoCuentaRegresiva -= deltaTiempo;
@@ -162,10 +160,14 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
     if (tiempoRestante <= 0.0f)
         estadoActual = Estado::DERROTA;
 
-    if (!jugador->estaVivo())
+    if (!jugador->estaVivo()) {
         estadoActual = Estado::DERROTA;
-    else if (!enemigo->estaVivo())
+        tiempoFinalizacion = 3.0f;
+    }
+    else if (!enemigo->estaVivo()) {
         estadoActual = Estado::VICTORIA;
+        tiempoFinalizacion = 3.0f;
+    }
 }
 
 
@@ -216,11 +218,29 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
         painter->setFont(QFont("Arial", 48, QFont::Bold));
         painter->drawText(200, 300, "Derrota");
     }
+    // Jugador
+    if (jugador->getTiempoDanio() > 0)
+        painter->setBrush(Qt::red); //Herido
+    else if (jugador->getEnDefensa())
+        painter->setBrush(Qt::cyan); // Defendiendo
+    else
+        painter->setBrush(Qt::blue); //Normal
+    painter->drawRect(jugador->getBoundingRect());
+
+    // Enemigo
+    if (enemigo->getTiempoDanio() > 0)
+        painter->setBrush(Qt::red); //herido
+    else if (enemigo->getEnDefensa())
+        painter->setBrush(Qt::magenta); //Defendiendo
+    else
+        painter->setBrush(Qt::darkRed); // Normal
+    painter->drawRect(enemigo->getBoundingRect());
+
 
 }
 
 bool Nivel2_3::estaTerminado() const {
-    return estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA;
+    return (estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA) && tiempoFinalizacion <= 0.0f;
 }
 
 void Nivel2_3::revisarColisiones() {
