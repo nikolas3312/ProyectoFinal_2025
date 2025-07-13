@@ -5,7 +5,7 @@
 #include <QIcon>
 #include <QFont>
 #include <QPushButton>
-
+#include <QDebug>
 /**
  * @brief Constructor de MainWindow.
  * Configura la ventana, crea la instancia del juego y la UI.
@@ -125,17 +125,18 @@ void MainWindow::paintEvent(QPaintEvent *event)
  */
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (juego) {
+    // Asegúrate de que esta línea de debug esté aquí para la prueba.
+    qDebug() << "Tecla Presionada en MainWindow. Código:" << event->key();
+
+    if (juego != nullptr) {
         juego->procesarInput(event);
     }
 }
 
-/**
- * @brief Evento de tecla liberada. Lo delega a la clase Juego.
- */
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if (juego) {
+    qDebug() << "Tecla Liberada en MainWindow. Código:" << event->key(); // <-- AÑADE ESTA LÍNEA
+    if (juego != nullptr) {
         juego->procesarInputLiberado(event);
     }
 }
