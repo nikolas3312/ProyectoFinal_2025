@@ -38,7 +38,7 @@ void Enemigo::decidirAccion() {
 
      else {
         estadoIA = EstadoIA::Defender;
-        // lógica futura: reducir daño
+        setDefensa(true);
     }
 }
 
