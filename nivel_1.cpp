@@ -1,11 +1,13 @@
 #include "Nivel_1.h"
-#include <cstdlib> // Para rand()
-#include <ctime>   // Para srand()
+#include <cstdlib>  // rand()
+#include <ctime>    // time()
+#include <cmath>    // ceil()
 
 // --- Constantes de configuración del Nivel ---
 constexpr float TIEMPO_A_SOBREVIVIR = 60.0f;
 constexpr float TIEMPO_INICIAL_CUENTA_REGRESIVA = 3.0f;
 constexpr float INTERVALO_GENERACION_OBSTACULO = 0.5f;
+constexpr float ACELERACION_INICIAL = 0.2f;
 
 /**
  * @brief Constructor. Inicializa el estado y guarda el personaje elegido.
@@ -13,14 +15,13 @@ constexpr float INTERVALO_GENERACION_OBSTACULO = 0.5f;
 Nivel_1::Nivel_1(PersonajeSeleccionado personaje)
     : estadoActual(Estado::CUENTA_REGRESIVA),
     personajeElegido(personaje),
-    jugador(nullptr), // Se inicializa en inicializar()
+    jugador(nullptr),
     tiempoObjetivo(TIEMPO_A_SOBREVIVIR),
     tiempoRestante(TIEMPO_A_SOBREVIVIR),
-    aceleracionGlobal(0.1f),
+    aceleracionGlobal(ACELERACION_INICIAL),
     tiempoParaSiguienteObstaculo(0.0f),
     tiempoCuentaRegresiva(TIEMPO_INICIAL_CUENTA_REGRESIVA)
 {
-    // Inicializa la semilla del generador de números aleatorios.
     srand(time(0));
 }
 
@@ -41,16 +42,11 @@ Nivel_1::~Nivel_1()
  */
 void Nivel_1::inicializar()
 {
-    // Crea al jugador en el centro de la parte inferior de la pantalla.
-    // El sprite a usar se basará en 'personajeElegido'.
-    jugador = new PersonajeJugador(380.0f, 500.0f, 40.0f, 40.0f);
-
-    // Setea el fondo (esto se haría en la clase 'Juego' o en el gestor de renderizado)
-    // setFondo(":/sprites/fondo_ciudad.png");
+    jugador = new PersonajeJugadorNivel1(380.0f, 500.0f, 40.0f, 40.0f);
 }
 
 /**
- * @brief Bucle principal de lógica del nivel, gestionado por estados.
+ * @brief Bucle principal de lógica del nivel.
  */
 void Nivel_1::actualizar(float deltaTiempo)
 {
@@ -63,136 +59,161 @@ void Nivel_1::actualizar(float deltaTiempo)
         break;
     case Estado::VICTORIA:
     case Estado::DERROTA:
-        // No hacer nada, esperar a que la clase Juego cambie de nivel/pantalla.
+        // No se hace nada aquí.
         break;
     }
 }
 
 /**
- * @brief Maneja la lógica de la cuenta regresiva inicial.
+ * @brief Lógica de la cuenta regresiva.
  */
 void Nivel_1::actualizarCuentaRegresiva(float deltaTiempo)
 {
     tiempoCuentaRegresiva -= deltaTiempo;
-    if (tiempoCuentaRegresiva <= 0) {
+    if (tiempoCuentaRegresiva <= 0.0f) {
         estadoActual = Estado::JUGANDO;
     }
 }
 
 /**
- * @brief Maneja la lógica principal mientras se está jugando.
+ * @brief Lógica principal de juego.
  */
 void Nivel_1::actualizarJugando(float deltaTiempo)
 {
-    // Actualizar jugador y obstáculos
-    jugador->actualizar(deltaTiempo);
+    if (jugador) jugador->actualizar(deltaTiempo);
+
     for (Obstaculo* obs : obstaculos) {
-        // Calcula la nueva velocidad y luego asígnala con el método público.
         float nuevaVelocidadY = obs->getVelocidadY() + (aceleracionGlobal * deltaTiempo);
         obs->setVelocidadY(nuevaVelocidadY);
+        obs->actualizar(deltaTiempo);
     }
 
-    // Generar nuevos obstáculos
+    aceleracionGlobal += 0.005f * deltaTiempo;
+
     generarObstaculos(deltaTiempo);
 
-    // Revisar colisiones
-    revisarColisiones(); // Si hay colisión, se llama a reiniciar()
+    revisarColisiones();
 
-    // Actualizar temporizador de supervivencia
     tiempoRestante -= deltaTiempo;
-    if (tiempoRestante <= 0) {
-        tiempoRestante = 0;
+    if (tiempoRestante <= 0.0f) {
+        tiempoRestante = 0.0f;
         estadoActual = Estado::VICTORIA;
     }
 }
 
-
 /**
- * @brief Comprueba si el nivel ha terminado (por victoria o derrota).
- */
-bool Nivel_1::estaTerminado() const
-{
-    return estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA;
-}
-
-/**
- * @brief Genera nuevos obstáculos de forma aleatoria.
+ * @brief Genera obstáculos aleatorios.
  */
 void Nivel_1::generarObstaculos(float deltaTiempo)
 {
     tiempoParaSiguienteObstaculo -= deltaTiempo;
-    if (tiempoParaSiguienteObstaculo <= 0) {
-        // Lógica para crear un obstáculo en una posición X aleatoria
-        // y con un tipo (sprite) aleatorio.
-        // ...
-        // obstaculos.push_back(new Obstaculo(...));
+    if (tiempoParaSiguienteObstaculo <= 0.0f) {
+        float posXAleatoria = static_cast<float>(rand() % 750);
+
+        TipoObstaculo tipo = static_cast<TipoObstaculo>(rand() % 3);
+
+        bool esSinusoidal = (rand() % 2 == 0);
+
+        obstaculos.push_back(new Obstaculo(posXAleatoria, -60.0f, tipo, esSinusoidal));
 
         tiempoParaSiguienteObstaculo = INTERVALO_GENERACION_OBSTACULO;
     }
 }
 
 /**
- * @brief Comprueba colisiones entre el jugador y los obstáculos.
+ * @brief Comprueba colisiones.
  */
 void Nivel_1::revisarColisiones()
 {
+    if (!jugador) return;
+
     for (Obstaculo* obs : obstaculos) {
         if (jugador->getBoundingRect().intersects(obs->getBoundingRect())) {
-            reiniciar(); // El jugador chocó, se reinicia el nivel.
-            return; // Salir del bucle para no procesar más colisiones.
+            estadoActual = Estado::DERROTA;
+            return;
         }
     }
 }
-
-/**
- * @brief Reinicia el estado del nivel a sus valores iniciales.
- */
-void Nivel_1::reiniciar()
-{
-    // TODO: Aquí podrías añadir una pantalla de "Retry". Por ahora, reinicia el tiempo.
-    // La pantalla de Game Over tras X intentos la manejaría la clase 'Juego'.
-    tiempoRestante = tiempoObjetivo;
-
-    // Opcional: limpiar todos los obstáculos de la pantalla.
-    for (Obstaculo* obs : obstaculos) {
-        delete obs;
-    }
-    obstaculos.clear();
-}
-
 
 /**
  * @brief Dibuja todos los elementos en pantalla.
  */
 void Nivel_1::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites)
 {
-    // Dibujar el fondo (gestionado por una clase superior)
-    // ...
+    // --- DIBUJAR EL FONDO ---
+    auto itFondo = sprites.find("fondo_nivel1");
+    if (itFondo != sprites.end()) {
+        const QPixmap& fondo = itFondo->second;
+        painter->drawPixmap(ventanaRect, fondo, fondo.rect());
+    }
 
-    // Dibujar jugador y obstáculos
-    jugador->dibujar(painter);
+    // --- DIBUJAR AL JUGADOR ---
+    if (jugador) {
+        std::string claveSpriteJugador;
+        switch (personajeElegido) {
+        case PersonajeSeleccionado::GOKU:   claveSpriteJugador = "goku"; break;
+        case PersonajeSeleccionado::KRILIN: claveSpriteJugador = "krilin"; break;
+        case PersonajeSeleccionado::YAMCHA: claveSpriteJugador = "yamcha"; break;
+        }
+
+        auto itJugador = sprites.find(claveSpriteJugador);
+        if (itJugador != sprites.end()) {
+            const QPixmap& spriteJugador = itJugador->second;
+            painter->drawPixmap(jugador->getBoundingRect(), spriteJugador, spriteJugador.rect());
+        }
+    }
+
+    // --- DIBUJAR OBSTÁCULOS ---
     for (const auto& obs : obstaculos) {
-        obs->dibujar(painter); // Aquí se usaría el getTipo() para elegir el sprite.
+        std::string claveSpriteObs;
+        switch (obs->getTipo()) {
+        case TipoObstaculo::VEHICULO: claveSpriteObs = "obstaculo_coche"; break;
+        case TipoObstaculo::PAJARO:   claveSpriteObs = "obstaculo_pajaro"; break;
+        case TipoObstaculo::CAPSULA:  claveSpriteObs = "obstaculo_dron";  break;
+        }
+
+        auto itObs = sprites.find(claveSpriteObs);
+        if (itObs != sprites.end()) {
+            const QPixmap& spriteObs = itObs->second;
+            painter->drawPixmap(obs->getBoundingRect(), spriteObs, spriteObs.rect());
+        }
     }
 
     // --- DIBUJAR LA INTERFAZ (UI) ---
-    // Configurar la fuente y el color para el texto
     painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 24, QFont::Bold));
-
-    // Dibujar el temporizador principal
     QString textoTiempo = QString("Tiempo: %1").arg(static_cast<int>(tiempoRestante));
     painter->drawText(20, 40, textoTiempo);
 
-    // Dibujar la cuenta regresiva si está activa
     if (estadoActual == Estado::CUENTA_REGRESIVA) {
         painter->setFont(QFont("Arial", 72, QFont::Bold));
         int num = static_cast<int>(ceil(tiempoCuentaRegresiva));
-        painter->drawText(ventanaRect, QString::number(num)); // Centrar el texto
+        painter->drawText(ventanaRect, Qt::AlignCenter, QString::number(num));
     }
 }
 
-void Nivel_1::recibirInput(const QSet<int>& /*teclas*/)
+void Nivel_1::recibirInput(const QSet<int>& teclas)
 {
-    // No se usa en este nivel
+    Q_UNUSED(teclas); // No se usa en este nivel.
+}
+// --- Métodos de la interfaz Nivel ---
+bool Nivel_1::estaTerminado() const
+{
+    return estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA;
+}
+Nivel_1::Estado Nivel_1::getEstadoNivel() const {
+    return estadoActual;
+}
+void Nivel_1::procesarInput(QKeyEvent* evento)
+{
+    if (jugador && estadoActual == Estado::JUGANDO) {
+        jugador->procesarTeclaPresionada(evento);
+    }
+}
+
+void Nivel_1::procesarInputLiberado(QKeyEvent* evento)
+{
+    if (jugador && estadoActual == Estado::JUGANDO) {
+        jugador->procesarTeclaLiberada(evento);
+    }
 }
