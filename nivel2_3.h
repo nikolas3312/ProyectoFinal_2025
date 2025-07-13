@@ -50,7 +50,7 @@ public:
     bool estaTerminado() const override;
 
 
-    void recibirInput(const QSet<int>& teclas);
+    void recibirInput(const QSet<int>& teclas) override;
 
 };
 
