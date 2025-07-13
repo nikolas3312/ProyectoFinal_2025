@@ -17,7 +17,11 @@ void PersonajeJugador::actualizar(float deltaTiempo)
 
 void PersonajeJugador::dibujar(QPainter* painter)
 {
-    painter->setBrush(Qt::blue);
+    if(tiempoDaño > 0)
+        painter->setBrush(Qt::red);
+    else
+        painter->setBrush(Qt::blue);
+
     painter->drawRect(getBoundingRect());
 }
 
@@ -41,6 +45,11 @@ void PersonajeJugador::procesarInput(const QSet<int>& teclas) {
     // --- Ataque patada ---
     if (teclas.contains(Qt::Key_K))
         atacarPatada();
+    if (teclas.contains(Qt::Key_L)) {
+        setDefensa(true);
+    } else {
+        setDefensa(false);
+    }
 }
 
 void PersonajeJugador::atacarPuño()
