@@ -9,9 +9,13 @@ Luchador::Luchador(float x, float y, float ancho, float alto)
 {}
 
 void Luchador::recibirDaño(float daño) {
-
+    if (enDefensa) {
+        daño *= 0.3f; //Esto es para que reciba solo el 30% del daño
+    }
     vida -= daño;
     if (vida < 0) vida = 0;
+
+    tiempoDaño = 0.4f; //0.4 segundos de parpadeo
 }
 
 bool Luchador::estaVivo() const {
@@ -29,6 +33,9 @@ void Luchador::actualizar(float deltaTiempo) {
     aplicarGravedad(deltaTiempo);
     posX += velocidadX * deltaTiempo;
     posY += velocidadY * deltaTiempo;
+
+    if(tiempoDaño > 0)
+        tiempoDaño -= deltaTiempo;
 
     if (posY >= 400) { // piso imaginario
         posY = 400;
