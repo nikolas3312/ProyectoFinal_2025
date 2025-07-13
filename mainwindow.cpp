@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Para probar directamente el Nivel 1 sin un menú, podemos llamar a esto.
     // Elige un personaje para la prueba.
     juego->iniciarNuevaPartida(PersonajeSeleccionado::GOKU);
+    juego->cambiarNivel(2);
 }
 
 /**
@@ -63,10 +64,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 }
 // Añade esta función al final de tu archivo mainwindow.cpp
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event)
-{
-    // Esta macro evita la advertencia de "parámetro no utilizado".
-    Q_UNUSED(event);
-
-    // Aquí irá la lógica futura si necesitas hacer algo cuando se suelta una tecla.
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    if (juego != nullptr) {
+        juego->soltarTecla(event);
+    }
 }
