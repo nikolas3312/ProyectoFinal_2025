@@ -34,12 +34,12 @@ void Luchador::actualizar(float deltaTiempo) {
         posY = 400;
         velocidadY = 0;
         enSuelo = true;
-    }
 
     if (cooldownAtaque > 0) {
         cooldownAtaque -= deltaTiempo;
         if (cooldownAtaque < 0) cooldownAtaque = 0;
     }
+}
 }
 
 void Luchador::aplicarGravedad(float deltaTiempo) {
