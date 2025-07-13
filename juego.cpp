@@ -50,7 +50,7 @@ void Juego::cargarRecursos()
 
     // --- Obstáculos ---
     sprites["obstaculo_coche"] = QPixmap(":/Nivel_1/carro-removebg-preview.png");
-    sprites["obstaculo_capsula"]  = QPixmap(":/Nivel_1/Dron-removebg-preview.png");
+    sprites["obstaculo_dron"]  = QPixmap(":/Nivel_1/Dron-removebg-preview.png");
     sprites["obstaculo_pajaro"]= QPixmap(":/Nivel_1/pajaro-removebg-preview (1).png");
     // --- Sprites para el Menú de Selección ---
     sprites["portada_goku"]   = QPixmap(":/Nivel_1/portadaGoku.png");
