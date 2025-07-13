@@ -15,7 +15,9 @@ public:
     Enemigo(float x, float y, float ancho, float alto);
 
     void actualizar(float deltaTiempo) override;
-    void atacar() override;
+    void atacarPuño();
+    void atacarPatada();
+
 
 private:
     void decidirAccion();
