@@ -2,7 +2,7 @@
 #include <cstdlib>  // rand()
 #include <ctime>    // time()
 #include <cmath>    // ceil()
-
+#include <QDebug>
 // --- Constantes de configuración del Nivel ---
 constexpr float TIEMPO_A_SOBREVIVIR = 60.0f;
 constexpr float TIEMPO_INICIAL_CUENTA_REGRESIVA = 3.0f;
@@ -88,7 +88,7 @@ void Nivel_1::actualizarJugando(float deltaTiempo)
         obs->actualizar(deltaTiempo);
     }
 
-    aceleracionGlobal += 0.005f * deltaTiempo;
+    aceleracionGlobal += 0.5f * deltaTiempo;
 
     generarObstaculos(deltaTiempo);
 
@@ -107,19 +107,24 @@ void Nivel_1::actualizarJugando(float deltaTiempo)
 void Nivel_1::generarObstaculos(float deltaTiempo)
 {
     tiempoParaSiguienteObstaculo -= deltaTiempo;
-    if (tiempoParaSiguienteObstaculo <= 0.0f) {
-        float posXAleatoria = static_cast<float>(rand() % 750);
-
+    if (tiempoParaSiguienteObstaculo <= 0) {
+        float posXAleatoria = 225 + static_cast<float>(rand() % 350);
         TipoObstaculo tipo = static_cast<TipoObstaculo>(rand() % 3);
-
         bool esSinusoidal = (rand() % 2 == 0);
 
-        obstaculos.push_back(new Obstaculo(posXAleatoria, -60.0f, tipo, esSinusoidal));
+        // 1. Crear el nuevo obstáculo y guardarlo en la variable 'nuevoObs'.
+        Obstaculo* nuevoObs = new Obstaculo(posXAleatoria, -60.0f, tipo, esSinusoidal);
 
+        // 2. Ahora que 'nuevoObs' existe, podemos usarlo para asignarle una velocidad inicial.
+        nuevoObs->setVelocidadY(150.0f);
+
+        // 3. Finalmente, lo añadimos al vector de obstáculos.
+        obstaculos.push_back(nuevoObs);
+
+        // Reiniciar el temporizador para el siguiente obstáculo.
         tiempoParaSiguienteObstaculo = INTERVALO_GENERACION_OBSTACULO;
     }
 }
-
 /**
  * @brief Comprueba colisiones.
  */
@@ -129,12 +134,14 @@ void Nivel_1::revisarColisiones()
 
     for (Obstaculo* obs : obstaculos) {
         if (jugador->getBoundingRect().intersects(obs->getBoundingRect())) {
+            // AÑADE ESTA LÍNEA DE DEBUG
+            qDebug() << "Colision detectada! Estado de Nivel_1 cambiando a DERROTA.";
+
             estadoActual = Estado::DERROTA;
             return;
         }
     }
 }
-
 /**
  * @brief Dibuja todos los elementos en pantalla.
  */
