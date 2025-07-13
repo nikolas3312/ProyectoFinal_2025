@@ -14,6 +14,12 @@ void Enemigo::actualizar(float deltaTiempo) {
         decidirAccion();
         temporizadorEstado = 2.0f + (rand() % 2);
     }
+
+    // Limitar bordes
+    if (posX < 0)
+        posX = 0;
+    if (posX > 800 - ancho)
+        posX = 800 - ancho;
 }
 
 void Enemigo::decidirAccion() {
@@ -23,16 +29,32 @@ void Enemigo::decidirAccion() {
         velocidadX = 0;
     } else if (decision == 1) {
         estadoIA = EstadoIA::Atacar;
-        atacar();
-    } else {
+        int tipoAtaque = rand() % 2;
+        if (tipoAtaque == 0)
+            atacarPuño();
+        else
+            atacarPatada();
+    }
+
+     else {
         estadoIA = EstadoIA::Defender;
         // lógica futura: reducir daño
     }
 }
 
-void Enemigo::atacar() {
+
+void Enemigo::atacarPuño() {
     if (cooldownAtaque <= 0) {
         estaAtacando = true;
         cooldownAtaque = 1.0f;
+        dañoBase = 10.0f;
+    }
+}
+
+void Enemigo::atacarPatada() {
+    if (cooldownAtaque <= 0) {
+        estaAtacando = true;
+        cooldownAtaque = 1.2f;
+        dañoBase = 20.0f;
     }
 }
