@@ -238,16 +238,12 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
 
 
 }
-void Nivel2_3::procesarInput(QKeyEvent* evento) {
-    teclasPresionadas.insert(evento->key());
-    jugador->procesarInput(teclasPresionadas);
-}
+void Nivel2_3::procesarInput(QKeyEvent* evento) {}
 
-void Nivel2_3::procesarInputLiberado(QKeyEvent* evento) {
-    teclasPresionadas.remove(evento->key());
-    jugador->procesarInput(teclasPresionadas);
+void Nivel2_3::procesarInputLiberado(QKeyEvent* evento) {}
+void Nivel2_3::recibirInput(const QSet<int>& teclas) {
+    teclasPresionadas = teclas;
 }
-
 bool Nivel2_3::estaTerminado() const {
     return (estadoActual == Estado::VICTORIA || estadoActual == Estado::DERROTA) && tiempoFinalizacion <= 0.0f;
 }
@@ -279,6 +275,4 @@ void Nivel2_3::limpiarHitboxes() {
     }
 }
 
-void Nivel2_3::recibirInput(const QSet<int>& teclas) {
-    teclasPresionadas = teclas;
-}
+
