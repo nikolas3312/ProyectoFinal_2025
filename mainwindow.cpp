@@ -1,29 +1,30 @@
 #include "mainwindow.h"
+#include "Juego.h"
 #include <QPainter>
 #include <QKeyEvent>
+#include <QIcon>
+#include <QFont>
+#include <QPushButton>
 
 /**
  * @brief Constructor de MainWindow.
- * Configura el tamaño de la ventana y crea la instancia del juego.
+ * Configura la ventana, crea la instancia del juego y la UI.
  */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    // Establece un título y un tamaño fijo para la ventana del juego.
+    // 1. Configuración de la ventana principal
     this->setWindowTitle("Proyecto Final - Dragon Ball");
-    this->setFixedSize(800, 600);
+    this->setFixedSize(800, 600); // Tamaño fijo para el juego
 
-    // Crea la instancia principal de la lógica del juego, pasándole un puntero a esta ventana.
+    // 2. Creación de la instancia del juego
     juego = new Juego(this);
 
-    // Inicia el bucle principal del juego (el QTimer interno de la clase Juego).
-    juego->iniciar();
+    // 3. Configuración de la Interfaz de Usuario (botones)
+    configurarUI();
 
-    // --- LÍNEA DE PRUEBA ---
-    // Para probar directamente el Nivel 1 sin un menú, podemos llamar a esto.
-    // Elige un personaje para la prueba.
-    juego->iniciarNuevaPartida(PersonajeSeleccionado::GOKU);
-    juego->cambiarNivel(2);
+    // 4. Inicio del bucle principal del juego
+    juego->iniciar();
 }
 
 /**
@@ -36,36 +37,105 @@ MainWindow::~MainWindow()
 }
 
 /**
- * @brief Evento de pintado.
- * Delega toda la responsabilidad del dibujo a la clase Juego.
+ * @brief Organiza la creación y configuración de todos los botones.
+ */
+void MainWindow::configurarUI()
+{
+    // --- Creación del Menú de Selección de Personaje ---
+    gokuButton = new QPushButton(this);
+    gokuButton->setIcon(QIcon(":/portadaGoku.png"));
+    gokuButton->setIconSize(QSize(150, 150));
+    gokuButton->setFixedSize(160, 160);
+    gokuButton->move(100, 200);
+
+    krilinButton = new QPushButton(this);
+    krilinButton->setIcon(QIcon(":/portadaKrilin.png"));
+    krilinButton->setIconSize(QSize(150, 150));
+    krilinButton->setFixedSize(160, 160);
+    krilinButton->move(320, 200);
+
+    yamchaButton = new QPushButton(this);
+    yamchaButton->setIcon(QIcon(":/portadaYamcha.png"));
+    yamchaButton->setIconSize(QSize(150, 150));
+    yamchaButton->setFixedSize(160, 160);
+    yamchaButton->move(540, 200);
+
+    // --- Botón de Reintentar (inicialmente oculto) ---
+    retryButton = new QPushButton("Reintentar", this);
+    retryButton->setFixedSize(200, 50);
+    retryButton->move(300, 400);
+    retryButton->hide();
+
+    // --- Conexión de señales y slots ---
+    connect(gokuButton, &QPushButton::clicked, this, [=]() {
+        juego->iniciarNuevaPartida(PersonajeSeleccionado::GOKU);
+        ocultarBotonesSeleccion();
+    });
+
+    connect(krilinButton, &QPushButton::clicked, this, [=]() {
+        juego->iniciarNuevaPartida(PersonajeSeleccionado::KRILIN);
+        ocultarBotonesSeleccion();
+    });
+
+    connect(yamchaButton, &QPushButton::clicked, this, [=]() {
+        juego->iniciarNuevaPartida(PersonajeSeleccionado::YAMCHA);
+        ocultarBotonesSeleccion();
+    });
+
+    connect(retryButton, &QPushButton::clicked, this, [=]() {
+        juego->iniciarNuevaPartida(juego->getPersonajeActual());
+        retryButton->hide();
+    });
+}
+
+/**
+ * @brief Oculta los botones de selección de personaje.
+ */
+void MainWindow::ocultarBotonesSeleccion()
+{
+    gokuButton->hide();
+    krilinButton->hide();
+    yamchaButton->hide();
+}
+
+/**
+ * @brief Evento de pintado. Delega el dibujo a la clase Juego.
  */
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    Q_UNUSED(event); // Le decimos al compilador que no nos importa no usar este parámetro.
+    Q_UNUSED(event);
+    QPainter painter(this);
 
-    QPainter painter(this); // Crea el "pincel" para dibujar en esta ventana.
+    if (juego) {
+        juego->dibujar(&painter, rect(), juego->getSprites());
+    }
 
-    // Llama al método de dibujo principal del juego, pasándole el pincel
-    // y el rectángulo de la ventana para los cálculos de centrado.
-    if (juego != nullptr) {
-        juego->dibujar(&painter, this->rect(), juego->getSprites());
+    // Mostrar pantalla de derrota y botón de reintentar
+    if (juego && juego->getEstado() == Juego::GameState::DERROTA) {
+        painter.fillRect(rect(), QColor(0, 0, 0, 150));
+        painter.setPen(Qt::white);
+        painter.setFont(QFont("Arial", 48, QFont::Bold));
+        painter.drawText(rect(), Qt::AlignCenter, "GAME OVER");
+        retryButton->show();
     }
 }
 
 /**
- * @brief Evento de pulsación de tecla.
- * Delega el evento a la clase Juego para que lo procese.
+ * @brief Evento de tecla presionada. Lo delega a la clase Juego.
  */
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (juego != nullptr) {
+    if (juego) {
         juego->procesarInput(event);
     }
 }
-// Añade esta función al final de tu archivo mainwindow.cpp
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {
-    if (juego != nullptr) {
-        juego->soltarTecla(event);
+/**
+ * @brief Evento de tecla liberada. Lo delega a la clase Juego.
+ */
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if (juego) {
+        juego->procesarInputLiberado(event);
     }
 }
