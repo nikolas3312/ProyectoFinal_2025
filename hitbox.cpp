@@ -5,12 +5,12 @@
  * @brief Constructor de Hitbox.
  * Llama al constructor de Entidad y luego inicializa sus propios atributos.
  */
-Hitbox::Hitbox(float x, float y, float ancho, float alto, float dano, float duracion, Luchador* propietario)
+Hitbox::Hitbox(float x, float y, float ancho, float alto, float dano, float duracion, Entidad* duenio)
     // Llama al constructor de la clase padre 'Entidad'.
     : Entidad(x, y, ancho, alto),
     danoQueProvoca(dano),
     duracionVida(duracion),
-    propietario(propietario)
+    duenio(duenio)
 {
     // El cuerpo del constructor puede estar vacío.
 }
@@ -41,11 +41,3 @@ bool Hitbox::haExpirado() const
     return duracionVida <= 0;
 }
 
-/**
- * @brief Devuelve un puntero al luchador que originó el ataque.
- * @return Puntero al Luchador propietario.
- */
-Luchador* Hitbox::getPropietario() const
-{
-    return propietario;
-}
