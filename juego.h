@@ -43,7 +43,7 @@ public:
      * @param evento El evento de teclado que se ha producido.
      */
     void procesarInput(QKeyEvent* evento);
-
+    void procesarInputLiberado(QKeyEvent* evento);
     /**
      * @brief Dibuja la escena actual del juego.
      * @param painter Puntero al QPainter que se usará para dibujar.
@@ -62,9 +62,8 @@ public:
      * @param numeroNivel El identificador del nuevo nivel a cargar.
      */
     void cambiarNivel(int numeroNivel);
-    void soltarTecla(QKeyEvent* evento);
     const std::map<std::string, QPixmap>& getSprites() const;
-    void procesarInputLiberado(QKeyEvent* evento);
+
     // Enum para los estados generales del juego.
     enum class GameState {
         MENU,
