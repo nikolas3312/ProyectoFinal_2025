@@ -123,20 +123,13 @@ void MainWindow::paintEvent(QPaintEvent *event)
 /**
  * @brief Evento de tecla presionada. Lo delega a la clase Juego.
  */
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    // Asegúrate de que esta línea de debug esté aquí para la prueba.
-    qDebug() << "Tecla Presionada en MainWindow. Código:" << event->key();
-
-    if (juego != nullptr) {
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (juego != nullptr)
         juego->procesarInput(event);
-    }
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event)
-{
-    qDebug() << "Tecla Liberada en MainWindow. Código:" << event->key(); // <-- AÑADE ESTA LÍNEA
-    if (juego != nullptr) {
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+    if (juego != nullptr)
         juego->procesarInputLiberado(event);
-    }
 }
+
