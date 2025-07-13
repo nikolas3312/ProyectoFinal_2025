@@ -64,6 +64,16 @@ public:
     void cambiarNivel(int numeroNivel);
     void soltarTecla(QKeyEvent* evento);
     const std::map<std::string, QPixmap>& getSprites() const;
+    void procesarInputLiberado(QKeyEvent* evento);
+    // Enum para los estados generales del juego.
+    enum class GameState {
+        MENU,
+        JUGANDO,
+        VICTORIA,
+        DERROTA
+    };
+    GameState getEstado() const;
+    PersonajeSeleccionado getPersonajeActual() const;
 private:
     /**
      * @brief El bucle principal de actualización, llamado por el QTimer.
@@ -72,15 +82,6 @@ private:
     QSet<int> teclasPresionadas;
     void cargarRecursos();
     std::map<std::string, QPixmap> sprites;
-
-    // Enum para los estados generales del juego.
-    enum class GameState {
-        MENU,
-        JUGANDO,
-        VICTORIA,
-        DERROTA
-    };
-
     // --- Atributos de Estado y Gestión ---
     GameState estadoActual;
     QMainWindow* ventanaPrincipal; // Puntero a la ventana para interactuar con ella.
