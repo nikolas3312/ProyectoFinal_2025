@@ -91,6 +91,7 @@ void Juego::iniciarNuevaPartida(PersonajeSeleccionado personaje)
 
 void Juego::procesarInput(QKeyEvent* evento)
 {
+    teclasPresionadas.insert(evento->key());
     if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
         nivelActual->procesarInput(evento);
     }
@@ -99,6 +100,7 @@ void Juego::procesarInput(QKeyEvent* evento)
 // --- AÑADE ESTA NUEVA FUNCIÓN ---
 void Juego::procesarInputLiberado(QKeyEvent* evento)
 {
+    teclasPresionadas.remove(evento->key());
     if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
         nivelActual->procesarInputLiberado(evento);
     }
@@ -112,7 +114,7 @@ void Juego::actualizar()
     if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
         // Calcula el tiempo delta en segundos.
         float deltaTiempo = static_cast<float>(INTERVALO_ACTUALIZACION) / 1000.0f;
-
+        nivelActual->recibirInput(teclasPresionadas);
         nivelActual->actualizar(deltaTiempo);
 
         // Comprueba si el nivel ha terminado.
@@ -195,9 +197,4 @@ Juego::GameState Juego::getEstado() const {
 PersonajeSeleccionado Juego::getPersonajeActual() const {
     return personajeActual;
 }
-void Juego::soltarTecla(QKeyEvent *evento) {
-    teclasPresionadas.remove(evento->key());
-    if (estadoActual == GameState::JUGANDO && nivelActual != nullptr) {
-        nivelActual->recibirInput(teclasPresionadas);
-}
-}
+
