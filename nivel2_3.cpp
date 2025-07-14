@@ -13,6 +13,11 @@ Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
     numeroNivel(numeroNivel),
     fondoEscenario("images/Fondo_torneo.jpeg")
 {
+    sonidoVictoria.setSource(QUrl("qrc:/Sonidos/victoria.wav"));
+    sonidoDerrota.setSource(QUrl("qrc:/Sonidos/game_over.wav"));
+
+    sonidoVictoria.setVolume(0.8f);
+    sonidoDerrota.setVolume(0.8f);
 }
 
 Nivel2_3::~Nivel2_3() {
@@ -179,15 +184,19 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
     // Cronómetro
     tiempoRestante -= deltaTiempo;
-    if (tiempoRestante <= 0.0f)
+    if (tiempoRestante <= 0.0f) {
         estadoActual = Estado::DERROTA;
-
+        sonidoDerrota.play();
+        tiempoFinalizacion = 3.0f;
+    }
     if (!jugador->estaVivo()) {
         estadoActual = Estado::DERROTA;
+        sonidoDerrota.play();
         tiempoFinalizacion = 3.0f;
     }
     else if (!enemigo->estaVivo()) {
         estadoActual = Estado::VICTORIA;
+        sonidoVictoria.play();
         tiempoFinalizacion = 3.0f;
     }
 }
