@@ -2,6 +2,7 @@
 #define LUCHADOR_H
 
 #include "entidad.h"
+#include <QSoundEffect>
 
 class Luchador : public Entidad
 {
@@ -15,9 +16,14 @@ protected:
     int direccion;
     bool enDefensa;
     float tiempoDaño;
+
+    QSoundEffect* sonidoGolpeRecibido;
+    QSoundEffect* sonidoPuño;
+    QSoundEffect* sonidoPatada;
+    QSoundEffect* sonidoSalto;
 public:
     Luchador(float x, float y, float ancho, float alto);
-    virtual ~Luchador() {}
+    virtual ~Luchador();
 
     virtual void recibirDaño(float daño);
     virtual bool estaVivo() const;

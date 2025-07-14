@@ -1,13 +1,39 @@
 #include "luchador.h"
 #include <QtMath>
+#include <QUrl>
 
 Luchador::Luchador(float x, float y, float ancho, float alto)
     : Entidad(x, y, ancho, alto),
     vida(100.0f), dañoBase(10.0f),
     estaAtacando(false), cooldownAtaque(0.0f),
     velocidadSalto(-500.0f), enSuelo(true), direccion(1)
-{}
+{
 
+// --- Configurar sonidos ---
+sonidoGolpeRecibido = new QSoundEffect();
+sonidoGolpeRecibido->setSource(QUrl::fromLocalFile("sonidos/golpe_recibido.wav"));
+sonidoGolpeRecibido->setVolume(0.8f);
+
+sonidoPuño = new QSoundEffect();
+sonidoPuño->setSource(QUrl::fromLocalFile("sonidos/puño.wav"));
+sonidoPuño->setVolume(0.8f);
+
+sonidoPatada = new QSoundEffect();
+sonidoPatada->setSource(QUrl::fromLocalFile("sonidos/patada.wav"));
+sonidoPatada->setVolume(0.8f);
+
+sonidoSalto = new QSoundEffect();
+sonidoSalto->setSource(QUrl::fromLocalFile("sonidos/salto.wav"));
+sonidoSalto->setVolume(0.8f);
+}
+
+Luchador::~Luchador()
+{
+    delete sonidoGolpeRecibido;
+    delete sonidoPuño;
+    delete sonidoPatada;
+    delete sonidoSalto;
+}
 void Luchador::recibirDaño(float daño) {
     if (enDefensa) {
         daño *= 0.3f; //Esto es para que reciba solo el 30% del daño
