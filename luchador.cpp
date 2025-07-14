@@ -8,7 +8,14 @@ Luchador::Luchador(float x, float y, float ancho, float alto)
     estaAtacando(false), cooldownAtaque(0.0f),
     velocidadSalto(-500.0f), enSuelo(true), direccion(1)
 {
-    // 🎵 Inicializar sonidos con rutas QRC
+
+    //Inicializar punteros
+    sonidoGolpeRecibido = new QSoundEffect();
+    sonidoPuño          = new QSoundEffect();
+    sonidoPatada        = new QSoundEffect();
+    sonidoSalto         = new QSoundEffect();
+
+    //Inicializar sonidos con rutas QRC
     sonidoGolpeRecibido->setSource(QUrl("qrc:/Sonidos/punch.wav")); // Sonido al recibir daño
     sonidoPuño->setSource(QUrl("qrc:/Sonidos/punch.wav"));          // Sonido de puño
     sonidoPatada->setSource(QUrl("qrc:/Sonidos/punch.wav"));        // Puedes poner otro si quieres
