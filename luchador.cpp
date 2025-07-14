@@ -16,6 +16,13 @@ void Luchador::recibirDaño(float daño) {
     if (vida < 0) vida = 0;
 
     tiempoDaño = 0.4f; //0.4 segundos de parpadeo
+    if (direccion == 1)
+        posX -= 20;
+    else
+        posX += 20;
+
+    if (posX < 0) posX = 0;
+    if (posX > 800 - ancho) posX = 800 - ancho;
 }
 
 bool Luchador::estaVivo() const {
