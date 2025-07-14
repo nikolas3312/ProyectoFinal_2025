@@ -48,4 +48,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Resources.qrc \
+    Sonidos.qrc \
     Sprites.qrc
