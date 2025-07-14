@@ -10,6 +10,8 @@
 #include <QPainter>
 #include <QSet>
 #include <QPixmap>
+#include <QSoundEffect>
+
 
 
 class Nivel2_3 : public Nivel {
@@ -39,6 +41,9 @@ private:
 
     QSet<int> teclasPresionadas;
     QPixmap fondoEscenario;
+
+    QSoundEffect sonidoVictoria;
+    QSoundEffect sonidoDerrota;
 
 public:
     Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel);
