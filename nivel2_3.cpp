@@ -1,5 +1,6 @@
 #include "nivel2_3.h"
 #include <cmath>
+#include <QDebug>
 
 Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
     : estadoActual(Estado::CUENTA_REGRESIVA),
@@ -24,21 +25,42 @@ Nivel2_3::~Nivel2_3() {
 
 void Nivel2_3::inicializar()
 {
-    // Crear jugador
+    qDebug() << "Ejecutando Nivel2_3::inicializar()...";
+
+    // --- Crear jugador ---
     jugador = new PersonajeJugador(100, 400, 50, 80);
     jugador->setDireccion(1);  // Inicialmente mira a la derecha
 
-    // Según el nivel, crear enemigo
-    if (numeroNivel == 2) {
+    // --- Crear enemigo según el número de nivel ---
+    switch (numeroNivel) {
+    case 2:
         enemigo = new Enemigo(500, 400, 50, 80);
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
-        // poner stats específicos de Ten Shin Han
-    } else if (numeroNivel == 3) {
+        // TODO: Asignar estadísticas específicas para Ten Shin Han
+        qDebug() << "Enemigo: Ten Shin Han creado.";
+        break;
+
+    case 3:
         enemigo = new Enemigo(500, 400, 50, 80);
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
-        // poner stats para Piccolo
+        // TODO: Asignar estadísticas específicas para Piccolo
+        qDebug() << "Enemigo: Piccolo creado.";
+        break;
+
+    default:
+        qDebug() << "¡ERROR! Número de nivel inválido:" << numeroNivel;
+        enemigo = nullptr;
+        break;
+    }
+
+    // --- Verificación final ---
+    if (jugador && enemigo) {
+        qDebug() << "Jugador y enemigo creados y asignados correctamente.";
+    } else {
+        qDebug() << "¡ERROR! Uno o ambos punteros a personajes son nullptr.";
     }
 }
+
 void Nivel2_3::actualizar(float deltaTiempo) {
 
     switch (estadoActual) {
@@ -173,71 +195,73 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
 void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::map<std::string, QPixmap>& sprites)
 {
-    // Fondo
-    painter->drawPixmap(ventanaRect.toRect(), fondoEscenario);
-
-    //Jugador
-    painter->setBrush(Qt::blue);
-    painter->drawRect(jugador->getBoundingRect());
-    //Enemigo
-    painter->setBrush(Qt::red);
-    painter->drawRect(enemigo->getBoundingRect());
-    //dibujar hitboxes
-    painter->setBrush(Qt::yellow);
-    for (auto h : hitboxesActivas) {
-        // Asumiendo que Hitbox tiene un método para saber si está activa
-        // y para obtener su rectángulo. En nuestro diseño sería h->getBoundingRect().
-        if (!h->haExpirado())
-            painter->drawRect(h->getBoundingRect());
+    // --- 1. DIBUJAR EL FONDO ---
+    auto itFondo = sprites.find("fondo_torneo");
+    if (itFondo != sprites.end()) {
+        const QPixmap& fondo = itFondo->second;
+        painter->drawPixmap(ventanaRect, fondo, fondo.rect());
     }
+
+    // --- 2. DIBUJAR LOS PERSONAJES (SPRITES) ---
+    // Jugador
+    if (jugador) {
+        // Aquí deberías decidir dinámicamente qué sprite usar según el estado
+        std::string claveSpriteJugador = "goku_combate"; // TODO: hacerlo dependiente de personajeElegido y estado
+        auto itJugador = sprites.find(claveSpriteJugador);
+        if (itJugador != sprites.end()) {
+            const QPixmap& spriteJugador = itJugador->second;
+            painter->drawPixmap(jugador->getBoundingRect(), spriteJugador, spriteJugador.rect());
+        }
+    }
+
+    // Enemigo
+    if (enemigo) {
+        std::string claveSpriteEnemigo = "enemigo_tenshinhan"; // TODO: hacerlo dependiente del enemigo real
+        auto itEnemigo = sprites.find(claveSpriteEnemigo);
+        if (itEnemigo != sprites.end()) {
+            const QPixmap& spriteEnemigo = itEnemigo->second;
+            painter->drawPixmap(enemigo->getBoundingRect(), spriteEnemigo, spriteEnemigo.rect());
+        }
+    }
+
+    // --- 3. DIBUJAR HITBOXES (PARA DEPURACIÓN) ---
+    painter->setBrush(QColor(255, 255, 0, 100)); // Amarillo semi-transparente
+    for (auto h : hitboxesActivas) {
+        if (!h->haExpirado()) {
+            painter->drawRect(h->getBoundingRect());
+        }
+    }
+
+    // --- 4. DIBUJAR LA INTERFAZ DE USUARIO (UI) ---
     // Barras de vida
     painter->setBrush(Qt::green);
-    painter->drawRect(50, 50, jugador->getVida() * 2, 20);
+    painter->drawRect(50, 50, static_cast<int>(jugador->getVida()) * 2, 20);
 
     painter->setBrush(Qt::red);
-    painter->drawRect(550, 50, enemigo->getVida() * 2, 20);
+    painter->drawRect(450, 50, static_cast<int>(enemigo->getVida()) * 2, 20);
 
     // Temporizador
     painter->setPen(Qt::white);
     painter->setFont(QFont("Arial", 24, QFont::Bold));
-    painter->drawText(370, 50, QString::number(static_cast<int>(tiempoRestante)));
+    painter->drawText(370, 70, QString::number(static_cast<int>(tiempoRestante)));
 
-    // El estado del nivel debe tener su propia lógica de cuenta regresiva si es necesaria.
+    // Cuenta regresiva inicial
     if (estadoActual == Estado::CUENTA_REGRESIVA) {
+        painter->setFont(QFont("Arial", 72, QFont::Bold));
         int num = static_cast<int>(ceil(tiempoCuentaRegresiva));
-        painter->drawText(300, 200, QString::number(num));
+        painter->drawText(ventanaRect, Qt::AlignCenter, QString::number(num));
     }
-    //Mostrar texto final (victoria o derrota)
+
+    // Texto de fin de partida
     if (estadoActual == Estado::VICTORIA) {
-        painter->setPen(Qt::white);
         painter->setFont(QFont("Arial", 48, QFont::Bold));
-        painter->drawText(200, 300, "¡Victoria!");
-    }
-    else if (estadoActual == Estado::DERROTA) {
-        painter->setPen(Qt::white);
+        painter->drawText(ventanaRect, Qt::AlignCenter, "¡Victoria!");
+    } else if (estadoActual == Estado::DERROTA) {
         painter->setFont(QFont("Arial", 48, QFont::Bold));
-        painter->drawText(200, 300, "Derrota");
+        painter->drawText(ventanaRect, Qt::AlignCenter, "Derrota");
     }
-    // Jugador
-    if (jugador->getTiempoDanio() > 0)
-        painter->setBrush(Qt::red); //Herido
-    else if (jugador->getEnDefensa())
-        painter->setBrush(Qt::cyan); // Defendiendo
-    else
-        painter->setBrush(Qt::blue); //Normal
-    painter->drawRect(jugador->getBoundingRect());
-
-    // Enemigo
-    if (enemigo->getTiempoDanio() > 0)
-        painter->setBrush(Qt::red); //herido
-    else if (enemigo->getEnDefensa())
-        painter->setBrush(Qt::magenta); //Defendiendo
-    else
-        painter->setBrush(Qt::darkRed); // Normal
-    painter->drawRect(enemigo->getBoundingRect());
-
-
 }
+
 void Nivel2_3::procesarInput(QKeyEvent* evento) {
     teclasPresionadas.insert(evento->key());
     jugador->procesarInput(teclasPresionadas);

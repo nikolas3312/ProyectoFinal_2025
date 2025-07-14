@@ -56,6 +56,8 @@ void Juego::cargarRecursos()
     sprites["portada_goku"]   = QPixmap(":/Nivel_1/portadaGoku.png");
     sprites["portada_krilin"] = QPixmap(":/Nivel_1/portadaKrilin.png");
     sprites["portada_yamcha"] = QPixmap(":/Nivel_1/portadaYamcha.png");
+    // --- AÑADE ESTA LÍNEA PARA EL FONDO DEL NIVEL 2/3 ---
+    sprites["fondo_torneo"] = QPixmap(":/images/Images/Fondo_torneo.jpeg");
 }
 /**
  * @brief Destructor. Libera la memoria del nivel actual y del temporizador.
