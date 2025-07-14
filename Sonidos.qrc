@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Sonidos">
+        <file>Sonidos/game_over.wav</file>
+        <file>Sonidos/punch.wav</file>
+        <file>Sonidos/swing.wav</file>
+        <file>Sonidos/victoria.wav</file>
+    </qresource>
+</RCC>
