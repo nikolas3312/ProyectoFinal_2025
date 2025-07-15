@@ -10,7 +10,6 @@
 #include <QPainter>
 #include <QSet>
 #include <QPixmap>
-#include <QSoundEffect>
 
 
 
@@ -42,8 +41,12 @@ private:
     QSet<int> teclasPresionadas;
     QPixmap fondoEscenario;
 
-    QSoundEffect sonidoVictoria;
-    QSoundEffect sonidoDerrota;
+    QMediaPlayer* playerVictoria;
+    QAudioOutput* audioVictoria;
+
+    QMediaPlayer* playerDerrota;
+    QAudioOutput* audioDerrota;
+
 
 public:
     Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel);
