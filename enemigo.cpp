@@ -50,6 +50,9 @@ void Enemigo::atacarPuño() {
         cooldownAtaque = 1.0f;
         dañoBase = 10.0f;
         tiempoAtaque = 0.2f;
+        playerPuño->stop();
+        playerPuño->play();
+
     }
 }
 
@@ -60,6 +63,9 @@ void Enemigo::atacarPatada() {
         cooldownAtaque = 1.2f;
         dañoBase = 20.0f;
         tiempoAtaque = 0.2f;
+        playerPatada->stop();
+        playerPatada->play();
+
     }
 }
 
