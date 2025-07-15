@@ -3,7 +3,9 @@
 
 #include "entidad.h"
 #include "GameTypes.h"
-#include <QSoundEffect>
+#include <QMediaPlayer>
+#include <QAudioOutput>
+
 
 class Luchador : public Entidad
 {
@@ -20,10 +22,16 @@ protected:
     bool enDefensa;
     float tiempoDaño;
 
-    QSoundEffect* sonidoGolpeRecibido;
-    QSoundEffect* sonidoPuño;
-    QSoundEffect* sonidoPatada;
-    QSoundEffect* sonidoSalto;
+    QMediaPlayer* playerGolpeRecibido;
+    QMediaPlayer* playerPuño;
+    QMediaPlayer* playerPatada;
+    QMediaPlayer* playerSalto;
+
+    QAudioOutput* audioOutputGolpe;
+    QAudioOutput* audioOutputPuño;
+    QAudioOutput* audioOutputPatada;
+    QAudioOutput* audioOutputSalto;
+
 public:
     Luchador(float x, float y, float ancho, float alto);
     virtual ~Luchador();
