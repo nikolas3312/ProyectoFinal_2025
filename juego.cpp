@@ -160,7 +160,6 @@ void Juego::actualizar()
 
         // Comprueba si el nivel ha terminado.
         if (nivelActual->estaTerminado()) {
-            // AÑADE ESTE PRIMER DEBUG
             qDebug() << "Juego ha detectado que el nivel ha terminado.";
 
             Nivel_1* nivel1 = dynamic_cast<Nivel_1*>(nivelActual);
@@ -168,12 +167,28 @@ void Juego::actualizar()
                 // AÑADE ESTE SEGUNDO DEBUG
                 qDebug() << "El nivel termino por DERROTA. Cambiando estado de Juego a DERROTA.";
                 this->estadoActual = GameState::DERROTA;
-            } else {
-                // Si es victoria, cambia al siguiente nivel
+            } else if (nivel1 && nivel1->getEstadoNivel() == Nivel_1::Estado::VICTORIA) {
+                // Pasar al nivel 2
                 cambiarNivel(2);
+            }
+            else {
+                // Si es un Nivel2_3
+                Nivel2_3* nivel23 = dynamic_cast<Nivel2_3*>(nivelActual);
+                if (nivel23) {
+                    int num = nivel23->getNumeroNivel();
+                    if (num == 2) {
+                        qDebug() << "Nivel 2 completado. Avanzando al nivel 3 (Piccoro).";
+                        cambiarNivel(3);
+                    }
+                    else if (num == 3) {
+                        qDebug() << "Nivel 3 completado. Juego terminado con VICTORIA.";
+                        this->estadoActual = GameState::VICTORIA;
+                    }
+                }
             }
         }
     }
+
 
     // Forza a la ventana a redibujarse para mostrar los cambios.
     ventanaPrincipal->update();
