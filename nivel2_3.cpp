@@ -13,8 +13,10 @@ Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
     numeroNivel(numeroNivel),
     fondoEscenario("images/Fondo_torneo.jpeg")
 {
-    sonidoVictoria.setSource(QUrl("qrc:/Sonidos/victoria.wav"));
-    sonidoDerrota.setSource(QUrl("qrc:/Sonidos/game_over.wav"));
+
+
+    sonidoVictoria.setSource(QUrl("qrc:/Sonidos/Victoria.wav"));
+    sonidoDerrota.setSource(QUrl("qrc:/Sonidos/Derrota.wav"));
 
     sonidoVictoria.setVolume(0.8f);
     sonidoDerrota.setVolume(0.8f);
@@ -48,8 +50,10 @@ void Nivel2_3::inicializar()
     case 3:
         enemigo = new Enemigo(500, 400, 50, 80);
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
-        // TODO: Asignar estadísticas específicas para Piccolo
         qDebug() << "Enemigo: Piccolo creado.";
+        enemigo->setVida(150.0f);          // Más vida
+        enemigo->setCooldownAtaque(0.5f);  // Más rápido para atacar
+        static_cast<Enemigo*>(enemigo)->resistencia = 0.5f;  // Recibe solo el 50% del daño
         break;
 
     default:
@@ -149,7 +153,6 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
         // Se llama al constructor de Hitbox con los 7 argumentos correctos.
         hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, jugador->getDañoBase(), 0.2f, jugador));
 
-        jugador->setEstaAtacando(false);
     }
 
     // --- Creación de Hitbox para el Enemigo ---
@@ -170,7 +173,6 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
         // Se llama al constructor con los 7 argumentos correctos.
         hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, enemigo->getDañoBase(), 0.2f, enemigo));
 
-        enemigo->setEstaAtacando(false);
     }
 
     // El resto de la función permanece igual.
@@ -214,8 +216,84 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
     // --- 2. DIBUJAR LOS PERSONAJES (SPRITES) ---
     // Jugador
     if (jugador) {
-        // Aquí deberías decidir dinámicamente qué sprite usar según el estado
-        std::string claveSpriteJugador = "goku_combate"; // TODO: hacerlo dependiente de personajeElegido y estado
+        std::string claveSpriteJugador;
+
+        if (personajeElegido == PersonajeSeleccionado::GOKU) {
+            if (jugador->getEstaAtacando()) {
+                if (jugador->getTipoAtaque() == TipoAtaque::Puno) {
+                    if (jugador->getDireccion() == 1)
+                        claveSpriteJugador = "goku_puno_derecha";
+                    else
+                        claveSpriteJugador = "goku_puno_izquierda";
+                } else if (jugador->getTipoAtaque() == TipoAtaque::Patada) {
+                    if (jugador->getDireccion() == 1)
+                        claveSpriteJugador = "goku_patada_derecha";
+                    else
+                        claveSpriteJugador = "goku_patada_izquierda";
+                }
+            } else if (jugador->getVelocidadX() != 0) {
+                if (jugador->getDireccion() == 1)
+                    claveSpriteJugador = "goku_derecha";
+                else
+                    claveSpriteJugador = "goku_izquierda";
+            } else {
+                if (jugador->getDireccion() == 1)
+                    claveSpriteJugador = "goku_derecha";
+                else
+                    claveSpriteJugador = "goku_izquierda";
+            }
+        }
+        else if (personajeElegido == PersonajeSeleccionado::KRILIN) {
+            if (jugador->getEstaAtacando()) {
+                if (jugador->getTipoAtaque() == TipoAtaque::Puno) {
+                    if (jugador->getDireccion() == 1)
+                        claveSpriteJugador = "krilin_puno_derecha";
+                    else
+                        claveSpriteJugador = "krilin_puno_izquierda";
+                } else if (jugador->getTipoAtaque() == TipoAtaque::Patada) {
+                    if (jugador->getDireccion() == 1)
+                        claveSpriteJugador = "krilin_patada_derecha";
+                    else
+                        claveSpriteJugador = "krilin_patada_izquierda";
+                }
+            } else if (jugador->getVelocidadX() != 0) {
+                if (jugador->getDireccion() == 1)
+                    claveSpriteJugador = "krilin_derecha";
+                else
+                    claveSpriteJugador = "krilin_izquierda";
+            } else {
+                if (jugador->getDireccion() == 1)
+                    claveSpriteJugador = "krilin_derecha";
+                else
+                    claveSpriteJugador = "krilin_izquierda";
+            }
+        }
+        else if (personajeElegido == PersonajeSeleccionado::YAMCHA) {
+            if (jugador->getEstaAtacando()) {
+                if (jugador->getTipoAtaque() == TipoAtaque::Puno) {
+                    if (jugador->getDireccion() == 1)
+                        claveSpriteJugador = "yamcha_puno_derecha";
+                    else
+                        claveSpriteJugador = "yamcha_puno_izquierda";
+                } else if (jugador->getTipoAtaque() == TipoAtaque::Patada) {
+                    if (jugador->getDireccion() == 1)
+                        claveSpriteJugador = "yamcha_patada_derecha";
+                    else
+                        claveSpriteJugador = "yamcha_patada_izquierda";
+                }
+            } else if (jugador->getVelocidadX() != 0) {
+                if (jugador->getDireccion() == 1)
+                    claveSpriteJugador = "yamcha_derecha";
+                else
+                    claveSpriteJugador = "yamcha_izquierda";
+            } else {
+                if (jugador->getDireccion() == 1)
+                    claveSpriteJugador = "yamcha_derecha";
+                else
+                    claveSpriteJugador = "yamcha_izquierda";
+            }
+        }
+
         auto itJugador = sprites.find(claveSpriteJugador);
         if (itJugador != sprites.end()) {
             const QPixmap& spriteJugador = itJugador->second;
@@ -223,9 +301,38 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
         }
     }
 
+
     // Enemigo
     if (enemigo) {
-        std::string claveSpriteEnemigo = "enemigo_tenshinhan"; // TODO: hacerlo dependiente del enemigo real
+        std::string claveSpriteEnemigo;
+        std::string baseEnemigo;
+
+        if (numeroNivel == 2)
+            baseEnemigo = "ten";
+        else if (numeroNivel == 3)
+            baseEnemigo = "picoro";
+        else
+            baseEnemigo = "ten"; // Fallback
+        // Determinar nombre base (Ten o Picoro)
+        if (enemigo->getEstaAtacando()) {
+            if (enemigo->getTipoAtaque() == TipoAtaque::Puno) {
+                if (enemigo->getDireccion() == 1)
+                    claveSpriteEnemigo = baseEnemigo + "_puno_derecha";
+                else
+                    claveSpriteEnemigo = baseEnemigo + "_puno_izquierda";
+            } else if (enemigo->getTipoAtaque() == TipoAtaque::Patada) {
+                if (enemigo->getDireccion() == 1)
+                    claveSpriteEnemigo = baseEnemigo + "_patada_derecha";
+                else
+                    claveSpriteEnemigo = baseEnemigo + "_patada_izquierda";
+            }
+        } else {
+            if (enemigo->getDireccion() == 1)
+                claveSpriteEnemigo = baseEnemigo + "_derecha";
+            else
+                claveSpriteEnemigo = baseEnemigo + "_izquierda";
+        }
+
         auto itEnemigo = sprites.find(claveSpriteEnemigo);
         if (itEnemigo != sprites.end()) {
             const QPixmap& spriteEnemigo = itEnemigo->second;
@@ -233,15 +340,8 @@ void Nivel2_3::dibujar(QPainter* painter, const QRectF& ventanaRect, const std::
         }
     }
 
-    // --- 3. DIBUJAR HITBOXES (PARA DEPURACIÓN) ---
-    painter->setBrush(QColor(255, 255, 0, 100)); // Amarillo semi-transparente
-    for (auto h : hitboxesActivas) {
-        if (!h->haExpirado()) {
-            painter->drawRect(h->getBoundingRect());
-        }
-    }
 
-    // --- 4. DIBUJAR LA INTERFAZ DE USUARIO (UI) ---
+    // --- 3. DIBUJAR LA INTERFAZ DE USUARIO (UI) ---
     // Barras de vida
     painter->setBrush(Qt::green);
     painter->drawRect(50, 50, static_cast<int>(jugador->getVida()) * 2, 20);
