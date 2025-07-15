@@ -5,7 +5,7 @@
 Luchador::Luchador(float x, float y, float ancho, float alto)
     : Entidad(x, y, ancho, alto),
     vida(100.0f), dañoBase(10.0f),
-    estaAtacando(false), cooldownAtaque(0.0f),
+    estaAtacando(false), tipoAtaque(TipoAtaque::Ninguno),tiempoAtaque(0.0f), cooldownAtaque(0.0f),
     velocidadSalto(-500.0f), enSuelo(true), direccion(1)
 {
 
@@ -16,10 +16,10 @@ Luchador::Luchador(float x, float y, float ancho, float alto)
     sonidoSalto         = new QSoundEffect();
 
     //Inicializar sonidos con rutas QRC
-    sonidoGolpeRecibido->setSource(QUrl("qrc:/Sonidos/punch.wav")); // Sonido al recibir daño
-    sonidoPuño->setSource(QUrl("qrc:/Sonidos/punch.wav"));          // Sonido de puño
-    sonidoPatada->setSource(QUrl("qrc:/Sonidos/punch.wav"));        // Puedes poner otro si quieres
-    sonidoSalto->setSource(QUrl("qrc:/Sonidos/swing.wav"));         // Sonido de salto
+    sonidoGolpeRecibido->setSource(QUrl("qrc:/Sonidos/Golpe.wav"));
+    sonidoPuño->setSource(QUrl("qrc:/Sonidos/Golpe.wav"));
+    sonidoPatada->setSource(QUrl("qrc:/Sonidos/Golpe.wav"));
+    sonidoSalto->setSource(QUrl("qrc:/Sonidos/Salto.wav"));
 
     sonidoGolpeRecibido->setVolume(0.6f);
     sonidoPuño->setVolume(0.6f);
@@ -74,6 +74,15 @@ void Luchador::actualizar(float deltaTiempo) {
     if(tiempoDaño > 0)
         tiempoDaño -= deltaTiempo;
 
+    if (tiempoAtaque > 0) {
+        tiempoAtaque -= deltaTiempo;
+    }
+
+        if (tiempoAtaque <= 0) {
+            estaAtacando = false;
+            tipoAtaque = TipoAtaque::Ninguno;
+        }
+
     if (posY >= 400) { // piso imaginario
         posY = 400;
         velocidadY = 0;
@@ -85,6 +94,7 @@ void Luchador::actualizar(float deltaTiempo) {
     }
 }
 }
+
 
 void Luchador::aplicarGravedad(float deltaTiempo) {
     if (!estaEnElSuelo()) {
