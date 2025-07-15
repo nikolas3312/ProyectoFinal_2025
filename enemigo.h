@@ -17,7 +17,7 @@ public:
     void actualizar(float deltaTiempo) override;
     void atacarPuño() override;
     void atacarPatada() override;
-    float resistencia;
+    float resistencia = 1.0f;
     void recibirDaño(float daño) override;
 
 
