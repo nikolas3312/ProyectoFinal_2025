@@ -59,7 +59,7 @@ public:
 
     void procesarInput(QKeyEvent* evento) override;
     void procesarInputLiberado(QKeyEvent* evento) override;
-
+    int getNumeroNivel() const { return numeroNivel; }
 
 };
 
