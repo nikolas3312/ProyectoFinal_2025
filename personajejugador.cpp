@@ -60,6 +60,9 @@ void PersonajeJugador::atacarPuño()
         dañoBase = 10.0f;  // daño para puño
         cooldownAtaque = 0.5f; // tiempo para volver a atacar
         tiempoAtaque = 0.2f;
+        playerPuño->stop();
+        playerPuño->play();
+
     }
 
 }
@@ -71,5 +74,8 @@ void PersonajeJugador::atacarPatada()
         dañoBase = 20.0f;  // daño para patada
         cooldownAtaque = 0.7f; // tiempo para volver a atacar
         tiempoAtaque = 0.2f;
+        playerPatada->stop();
+        playerPatada->play();
+
     }
 }
