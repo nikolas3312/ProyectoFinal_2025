@@ -56,15 +56,20 @@ void PersonajeJugador::atacarPuño()
 {
     if (!estaAtacando && cooldownAtaque <= 0.0f) {
         estaAtacando = true;
+        tipoAtaque = TipoAtaque::Puno;
         dañoBase = 10.0f;  // daño para puño
         cooldownAtaque = 0.5f; // tiempo para volver a atacar
+        tiempoAtaque = 0.2f;
     }
+
 }
 void PersonajeJugador::atacarPatada()
 {
     if (!estaAtacando && cooldownAtaque <= 0.0f) {
         estaAtacando = true;
+        tipoAtaque = TipoAtaque::Patada;
         dañoBase = 20.0f;  // daño para patada
         cooldownAtaque = 0.7f; // tiempo para volver a atacar
+        tiempoAtaque = 0.2f;
     }
 }
