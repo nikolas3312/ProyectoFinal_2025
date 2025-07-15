@@ -58,44 +58,44 @@ void Juego::cargarRecursos()
     // --- SPRITES DEL NIVEL 2/3 ---
     sprites["fondo_torneo"] = QPixmap(":/images/Images/Fondo_torneo.jpeg");
     // --- Sprites de GOKU ---
-    sprites["goku_derecha"]          = QPixmap(":/sprites nivel2_3/GokuDerecha.png");
-    sprites["goku_izquierda"]        = QPixmap(":/sprites nivel2_3/GokuIzquierda.png");
-    sprites["goku_puno_derecha"]     = QPixmap(":/sprites nivel2_3/GokuPuñoDerecha.png");
-    sprites["goku_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/GokuPuñoIzquierda.png");
-    sprites["goku_patada_derecha"]   = QPixmap(":/sprites nivel2_3/GokuPatadaDerecha.png");
-    sprites["goku_patada_izquierda"] = QPixmap(":/sprites nivel2_3/GokuPatadaIzquierda.png");
+    sprites["goku_derecha"]          = QPixmap(":/Nivel2_3/sprites_nivel2_3/GokuDerecha.png");
+    sprites["goku_izquierda"]        = QPixmap(":/Nivel2_3/sprites_nivel2_3/GokuIzquierda.png");
+    sprites["goku_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/GokuPuñoDerecha.png");
+    sprites["goku_puno_izquierda"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/GokuPuñoIzquierda.png");
+    sprites["goku_patada_derecha"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/GokuPatadaDerecha.png");
+    sprites["goku_patada_izquierda"] = QPixmap(":/Nivel2_3/sprites_nivel2_3/GokuPatadaIzquierda.png");
 
     // --- Sprites de KRILIN ---
-    sprites["krilin_derecha"]          = QPixmap(":/sprites nivel2_3/KrilinDerecha.png");
-    sprites["krilin_izquierda"]        = QPixmap(":/sprites nivel2_3/KrilinIzquierda.png");
-    sprites["krilin_puno_derecha"]     = QPixmap(":/sprites nivel2_3/KrilinPuñoDerecha.png");
-    sprites["krilin_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/KrilinPuñoIzquierda.png");
-    sprites["krilin_patada_derecha"]   = QPixmap(":/sprites nivel2_3/KrilinPatadaDerecha.png");
-    sprites["krilin_patada_izquierda"] = QPixmap(":/sprites nivel2_3/KrilinPatadaIzquierda.png");
+    sprites["krilin_derecha"]          = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinDerecha.png");
+    sprites["krilin_izquierda"]        = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinIzquierda.png");
+    sprites["krilin_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPuñoDerecha.png");
+    sprites["krilin_puno_izquierda"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPuñoIzquierda.png");
+    sprites["krilin_patada_derecha"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPatadaDerecha.png");
+    sprites["krilin_patada_izquierda"] = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPatadaIzquierda.png");
 
     // --- Sprites de YAMCHA ---
-    sprites["yamcha_derecha"]          = QPixmap(":/sprites nivel2_3/YamchaDerecha.png");
-    sprites["yamcha_izquierda"]        = QPixmap(":/sprites nivel2_3/YamchaIzquierda.png");
-    sprites["yamcha_puno_derecha"]     = QPixmap(":/sprites nivel2_3/YamchaPuñoDerecha.png");
-    sprites["yamcha_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/YamchaPuñoIzquierda.png");
-    sprites["yamcha_patada_derecha"]   = QPixmap(":/sprites nivel2_3/YamchaPatadaDerecha.png");
-    sprites["yamcha_patada_izquierda"] = QPixmap(":/sprites nivel2_3/YamchaPatadaIzquierda.png");
+    sprites["yamcha_derecha"]          = QPixmap(":/Nivel2_3/sprites_nivel2_3/YamchaDerecha.png");
+    sprites["yamcha_izquierda"]        = QPixmap(":/Nivel2_3/sprites_nivel2_3/YamchaIzquierda.png");
+    sprites["yamcha_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/YamchaPuñoDerecha.png");
+    sprites["yamcha_puno_izquierda"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/YamchaPuñoIzquierda.png");
+    sprites["yamcha_patada_derecha"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/YamchaPatadaDerecha.png");
+    sprites["yamcha_patada_izquierda"] = QPixmap(":/Nivel2_3/sprites_nivel2_3/YamchaPatadaIzquierda.png");
 
     // --- Sprites de TENSHINHAN ---
-    sprites["ten_derecha"]          = QPixmap(":/sprites nivel2_3/TenDerecha.png");
-    sprites["ten_izquierda"]        = QPixmap(":/sprites nivel2_3/TenIzquierda.png");
-    sprites["ten_puno_derecha"]     = QPixmap(":/sprites nivel2_3/TenPuñoDerecha.png");
-    sprites["ten_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/TenPuñoIzquierda.png");
-    sprites["ten_patada_derecha"]   = QPixmap(":/sprites nivel2_3/TenPatadaDerecha.png");
-    sprites["ten_patada_izquierda"] = QPixmap(":/sprites nivel2_3/TenPatadaIzquierda.png");
+    sprites["ten_derecha"]          = QPixmap(":/Nivel2_3/sprites_nivel2_3/TenDerecha.png");
+    sprites["ten_izquierda"]        = QPixmap(":/Nivel2_3/sprites_nivel2_3/TenIzquierda.png");
+    sprites["ten_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/TenPuñoDerecha.png");
+    sprites["ten_puno_izquierda"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/TenPuñoIzquierda.png");
+    sprites["ten_patada_derecha"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/TenPatadaDerecha.png");
+    sprites["ten_patada_izquierda"] = QPixmap(":/Nivel2_3/sprites_nivel2_3/TenPatadaIzquierda.png");
 
     // --- Sprites de PICCOLO ---
-    sprites["picoro_derecha"]          = QPixmap(":/sprites nivel2_3/PicoroDerecha.png");
-    sprites["picoro_izquierda"]        = QPixmap(":/sprites nivel2_3/PicoroIzquierda.png");
-    sprites["picoro_puno_derecha"]     = QPixmap(":/sprites nivel2_3/PicoroPuñoDerecha.png");
-    sprites["picoro_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/PicoroPuñoIzquierda.png");
-    sprites["picoro_patada_derecha"]   = QPixmap(":/sprites nivel2_3/PicoroPatadaDerecha.png");
-    sprites["picoro_patada_izquierda"] = QPixmap(":/sprites nivel2_3/PicoroPatadaIzquierda.png");
+    sprites["picoro_derecha"]          = QPixmap(":/Nivel2_3/sprites_nivel2_3/PicoroDerecha.png");
+    sprites["picoro_izquierda"]        = QPixmap(":/Nivel2_3/sprites_nivel2_3/PicoroIzquierda.png");
+    sprites["picoro_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/PicoroPuñoDerecha.png");
+    sprites["picoro_puno_izquierda"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/PicoroPuñoIzquierda.png");
+    sprites["picoro_patada_derecha"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/PicoroPatadaDerecha.png");
+    sprites["picoro_patada_izquierda"] = QPixmap(":/Nivel2_3/sprites_nivel2_3/PicoroPatadaIzquierda.png");
 
 }
 /**
