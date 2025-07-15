@@ -11,4 +11,10 @@ enum class PersonajeSeleccionado {
     YAMCHA
 };
 
+enum class TipoAtaque {
+    Ninguno,
+    Puno,
+    Patada
+};
+
 #endif // GAMETYPES_H
