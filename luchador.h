@@ -2,6 +2,7 @@
 #define LUCHADOR_H
 
 #include "entidad.h"
+#include "GameTypes.h"
 #include <QSoundEffect>
 
 class Luchador : public Entidad
@@ -10,6 +11,8 @@ protected:
     float vida;
     float dañoBase;
     bool estaAtacando;
+    TipoAtaque tipoAtaque;
+    float tiempoAtaque;
     float cooldownAtaque;
     float velocidadSalto;
     bool enSuelo;
@@ -33,6 +36,7 @@ public:
     virtual void atacarPatada() = 0;
     float getDañoBase() const { return dañoBase; }
     bool getEstaAtacando() const { return estaAtacando; }
+    TipoAtaque getTipoAtaque() const { return tipoAtaque; }
     void setEstaAtacando(bool valor) { estaAtacando = valor; }
     float getVida() const { return vida; }
     int getDireccion() const { return direccion; }
@@ -40,6 +44,9 @@ public:
     void setDefensa(bool estado) { enDefensa = estado; }
     bool getEnDefensa() const { return enDefensa; }
     float getTiempoDanio() const { return tiempoDaño; }
+    void setVida(float nuevaVida) { vida = nuevaVida; }
+    void setCooldownAtaque(float cd) { cooldownAtaque = cd; }
+
 
 
 
