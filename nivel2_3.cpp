@@ -15,11 +15,20 @@ Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
 {
 
 
-    sonidoVictoria.setSource(QUrl("qrc:/Sonidos/Victoria.wav"));
-    sonidoDerrota.setSource(QUrl("qrc:/Sonidos/Derrota.wav"));
+    // Victoria
+    audioVictoria = new QAudioOutput();
+    playerVictoria = new QMediaPlayer();
+    playerVictoria->setAudioOutput(audioVictoria);
+    playerVictoria->setSource(QUrl("qrc:/Sonidos/Victoria.mp3"));
+    audioVictoria->setVolume(0.8f);
 
-    sonidoVictoria.setVolume(0.8f);
-    sonidoDerrota.setVolume(0.8f);
+    // Derrota
+    audioDerrota = new QAudioOutput();
+    playerDerrota = new QMediaPlayer();
+    playerDerrota->setAudioOutput(audioDerrota);
+    playerDerrota->setSource(QUrl("qrc:/Sonidos/Derrota.mp3"));
+    audioDerrota->setVolume(0.8f);
+
 }
 
 Nivel2_3::~Nivel2_3() {
