@@ -16,35 +16,35 @@
         <file>portadaKrilin.png</file>
     </qresource>
     <qresource prefix="/Nivel2_3">
-        <file>sprites nivel2_3/GokuDerecha.png</file>
-        <file>sprites nivel2_3/GokuIzquierda.png</file>
-        <file>sprites nivel2_3/GokuPatadaDerecha.png</file>
-        <file>sprites nivel2_3/GokuPatadaIzquierda.png</file>
-        <file>sprites nivel2_3/GokuPuñoDerecha.png</file>
-        <file>sprites nivel2_3/GokuPuñoIzquierda.png</file>
-        <file>sprites nivel2_3/KrilinDerecha.png</file>
-        <file>sprites nivel2_3/KrilinIzquierda.png</file>
-        <file>sprites nivel2_3/KrilinPatadaDerecha.png</file>
-        <file>sprites nivel2_3/KrilinPatadaIzquierda.png</file>
-        <file>sprites nivel2_3/KrilinPuñoDerecha.png</file>
-        <file>sprites nivel2_3/KrilinPuñoIzquierda.png</file>
-        <file>sprites nivel2_3/PicoroDerecha.png</file>
-        <file>sprites nivel2_3/PicoroIzquierda.png</file>
-        <file>sprites nivel2_3/PicoroPatadaDerecha.png</file>
-        <file>sprites nivel2_3/PicoroPatadaIzquierda.png</file>
-        <file>sprites nivel2_3/PicoroPuñoDerecha.png</file>
-        <file>sprites nivel2_3/PicoroPuñoIzquierda.png</file>
-        <file>sprites nivel2_3/TenDerecha.png</file>
-        <file>sprites nivel2_3/TenIzquierda.png</file>
-        <file>sprites nivel2_3/TenPatadaDerecha.png</file>
-        <file>sprites nivel2_3/TenPatadaIzquierda.png</file>
-        <file>sprites nivel2_3/TenPuñoDerecha.png</file>
-        <file>sprites nivel2_3/TenPuñoIzquierda.png</file>
-        <file>sprites nivel2_3/YamchaDerecha.png</file>
-        <file>sprites nivel2_3/YamchaIzquierda.png</file>
-        <file>sprites nivel2_3/YamchaPatadaDerecha.png</file>
-        <file>sprites nivel2_3/YamchaPatadaIzquierda.png</file>
-        <file>sprites nivel2_3/YamchaPuñoDerecha.png</file>
-        <file>sprites nivel2_3/YamchaPuñoIzquierda.png</file>
+        <file>sprites_nivel2_3/GokuDerecha.png</file>
+        <file>sprites_nivel2_3/GokuIzquierda.png</file>
+        <file>sprites_nivel2_3/GokuPatadaDerecha.png</file>
+        <file>sprites_nivel2_3/GokuPatadaIzquierda.png</file>
+        <file>sprites_nivel2_3/GokuPunoDerecha.png</file>
+        <file>sprites_nivel2_3/GokuPunoIzquierda.png</file>
+        <file>sprites_nivel2_3/KrilinDerecha.png</file>
+        <file>sprites_nivel2_3/KrilinIzquierda.png</file>
+        <file>sprites_nivel2_3/KrilinPatadaDerecha.png</file>
+        <file>sprites_nivel2_3/KrilinPatadaIzquierda.png</file>
+        <file>sprites_nivel2_3/KrilinPunoDerecha.png</file>
+        <file>sprites_nivel2_3/KrilinPunoIzquierda.png</file>
+        <file>sprites_nivel2_3/PicoroDerecha.png</file>
+        <file>sprites_nivel2_3/PicoroIzquierda.png</file>
+        <file>sprites_nivel2_3/PicoroPatadaDerecha.png</file>
+        <file>sprites_nivel2_3/PicoroPatadaIzquierda.png</file>
+        <file>sprites_nivel2_3/PicoroPunoDerecha.png</file>
+        <file>sprites_nivel2_3/PicoroPunoIzquierda.png</file>
+        <file>sprites_nivel2_3/TenDerecha.png</file>
+        <file>sprites_nivel2_3/TenIzquierda.png</file>
+        <file>sprites_nivel2_3/TenPatadaDerecha.png</file>
+        <file>sprites_nivel2_3/TenPatadaIzquierda.png</file>
+        <file>sprites_nivel2_3/TenPunoDerecha.png</file>
+        <file>sprites_nivel2_3/TenPunoIzquierda.png</file>
+        <file>sprites_nivel2_3/YamchaDerecha.png</file>
+        <file>sprites_nivel2_3/YamchaIzquierda.png</file>
+        <file>sprites_nivel2_3/YamchaPatadaDerecha.png</file>
+        <file>sprites_nivel2_3/YamchaPatadaIzquierda.png</file>
+        <file>sprites_nivel2_3/YamchaPunoDerecha.png</file>
+        <file>sprites_nivel2_3/YamchaPunoIzquierda.png</file>
     </qresource>
 </RCC>

@@ -68,7 +68,7 @@ void Juego::cargarRecursos()
     // --- Sprites de KRILIN ---
     sprites["krilin_derecha"]          = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinDerecha.png");
     sprites["krilin_izquierda"]        = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinIzquierda.png");
-    sprites["krilin_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPuñoDerecha.png");
+    sprites["krilin_puno_derecha"]     = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPunoDerecha.png");
     sprites["krilin_puno_izquierda"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPuñoIzquierda.png");
     sprites["krilin_patada_derecha"]   = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPatadaDerecha.png");
     sprites["krilin_patada_izquierda"] = QPixmap(":/Nivel2_3/sprites_nivel2_3/KrilinPatadaIzquierda.png");
