@@ -46,7 +46,6 @@ void Juego::cargarRecursos()
     sprites["goku"]    = QPixmap(":/Nivel_1/goku-removebg-preview.png");
     sprites["krilin"]  = QPixmap(":/Nivel_1/krilin-removebg-preview.png");
     sprites["yamcha"]  = QPixmap(":/Nivel_1/yamcha-removebg-preview.png");
-    // Nota: Falta el sprite para Tenshinhan en la lista de archivos.
 
     // --- Obstáculos ---
     sprites["obstaculo_coche"] = QPixmap(":/Nivel_1/carro-removebg-preview.png");
@@ -56,8 +55,48 @@ void Juego::cargarRecursos()
     sprites["portada_goku"]   = QPixmap(":/Nivel_1/portadaGoku.png");
     sprites["portada_krilin"] = QPixmap(":/Nivel_1/portadaKrilin.png");
     sprites["portada_yamcha"] = QPixmap(":/Nivel_1/portadaYamcha.png");
-    // --- AÑADE ESTA LÍNEA PARA EL FONDO DEL NIVEL 2/3 ---
+    // --- SPRITES DEL NIVEL 2/3 ---
     sprites["fondo_torneo"] = QPixmap(":/images/Images/Fondo_torneo.jpeg");
+    // --- Sprites de GOKU ---
+    sprites["goku_derecha"]          = QPixmap(":/sprites nivel2_3/GokuDerecha.png");
+    sprites["goku_izquierda"]        = QPixmap(":/sprites nivel2_3/GokuIzquierda.png");
+    sprites["goku_puno_derecha"]     = QPixmap(":/sprites nivel2_3/GokuPuñoDerecha.png");
+    sprites["goku_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/GokuPuñoIzquierda.png");
+    sprites["goku_patada_derecha"]   = QPixmap(":/sprites nivel2_3/GokuPatadaDerecha.png");
+    sprites["goku_patada_izquierda"] = QPixmap(":/sprites nivel2_3/GokuPatadaIzquierda.png");
+
+    // --- Sprites de KRILIN ---
+    sprites["krilin_derecha"]          = QPixmap(":/sprites nivel2_3/KrilinDerecha.png");
+    sprites["krilin_izquierda"]        = QPixmap(":/sprites nivel2_3/KrilinIzquierda.png");
+    sprites["krilin_puno_derecha"]     = QPixmap(":/sprites nivel2_3/KrilinPuñoDerecha.png");
+    sprites["krilin_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/KrilinPuñoIzquierda.png");
+    sprites["krilin_patada_derecha"]   = QPixmap(":/sprites nivel2_3/KrilinPatadaDerecha.png");
+    sprites["krilin_patada_izquierda"] = QPixmap(":/sprites nivel2_3/KrilinPatadaIzquierda.png");
+
+    // --- Sprites de YAMCHA ---
+    sprites["yamcha_derecha"]          = QPixmap(":/sprites nivel2_3/YamchaDerecha.png");
+    sprites["yamcha_izquierda"]        = QPixmap(":/sprites nivel2_3/YamchaIzquierda.png");
+    sprites["yamcha_puno_derecha"]     = QPixmap(":/sprites nivel2_3/YamchaPuñoDerecha.png");
+    sprites["yamcha_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/YamchaPuñoIzquierda.png");
+    sprites["yamcha_patada_derecha"]   = QPixmap(":/sprites nivel2_3/YamchaPatadaDerecha.png");
+    sprites["yamcha_patada_izquierda"] = QPixmap(":/sprites nivel2_3/YamchaPatadaIzquierda.png");
+
+    // --- Sprites de TENSHINHAN ---
+    sprites["ten_derecha"]          = QPixmap(":/sprites nivel2_3/TenDerecha.png");
+    sprites["ten_izquierda"]        = QPixmap(":/sprites nivel2_3/TenIzquierda.png");
+    sprites["ten_puno_derecha"]     = QPixmap(":/sprites nivel2_3/TenPuñoDerecha.png");
+    sprites["ten_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/TenPuñoIzquierda.png");
+    sprites["ten_patada_derecha"]   = QPixmap(":/sprites nivel2_3/TenPatadaDerecha.png");
+    sprites["ten_patada_izquierda"] = QPixmap(":/sprites nivel2_3/TenPatadaIzquierda.png");
+
+    // --- Sprites de PICCOLO ---
+    sprites["picoro_derecha"]          = QPixmap(":/sprites nivel2_3/PicoroDerecha.png");
+    sprites["picoro_izquierda"]        = QPixmap(":/sprites nivel2_3/PicoroIzquierda.png");
+    sprites["picoro_puno_derecha"]     = QPixmap(":/sprites nivel2_3/PicoroPuñoDerecha.png");
+    sprites["picoro_puno_izquierda"]   = QPixmap(":/sprites nivel2_3/PicoroPuñoIzquierda.png");
+    sprites["picoro_patada_derecha"]   = QPixmap(":/sprites nivel2_3/PicoroPatadaDerecha.png");
+    sprites["picoro_patada_izquierda"] = QPixmap(":/sprites nivel2_3/PicoroPatadaIzquierda.png");
+
 }
 /**
  * @brief Destructor. Libera la memoria del nivel actual y del temporizador.
