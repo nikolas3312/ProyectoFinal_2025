@@ -3,7 +3,7 @@
 
 Enemigo::Enemigo(float x, float y, float ancho, float alto)
     : Luchador(x, y, ancho, alto),
-    estadoIA(EstadoIA::Esperar), temporizadorEstado(2.0f)
+    estadoIA(EstadoIA::Esperar), temporizadorEstado(2.0f),resistencia(1.0f)
 {}
 
 void Enemigo::actualizar(float deltaTiempo) {
@@ -46,15 +46,25 @@ void Enemigo::decidirAccion() {
 void Enemigo::atacarPuño() {
     if (cooldownAtaque <= 0) {
         estaAtacando = true;
+        tipoAtaque = TipoAtaque::Puno;
         cooldownAtaque = 1.0f;
         dañoBase = 10.0f;
+        tiempoAtaque = 0.2f;
     }
 }
 
 void Enemigo::atacarPatada() {
     if (cooldownAtaque <= 0) {
         estaAtacando = true;
+        tipoAtaque = TipoAtaque::Patada;
         cooldownAtaque = 1.2f;
         dañoBase = 20.0f;
+        tiempoAtaque = 0.2f;
     }
 }
+
+void Enemigo::recibirDaño(float daño) {
+    daño *= resistencia;
+    Luchador::recibirDaño(daño);
+}
+
