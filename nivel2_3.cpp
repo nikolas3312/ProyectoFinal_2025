@@ -37,6 +37,11 @@ Nivel2_3::~Nivel2_3() {
     for (auto h : hitboxesActivas)
         delete h;
     hitboxesActivas.clear();
+
+    delete playerVictoria;
+    delete audioVictoria;
+    delete playerDerrota;
+    delete audioDerrota;
 }
 
 void Nivel2_3::inicializar()
@@ -47,12 +52,10 @@ void Nivel2_3::inicializar()
     jugador = new PersonajeJugador(100, 400, 50, 80);
     jugador->setDireccion(1);  // Inicialmente mira a la derecha
 
-    // --- Crear enemigo según el número de nivel ---
     switch (numeroNivel) {
     case 2:
         enemigo = new Enemigo(500, 400, 50, 80);
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
-        // TODO: Asignar estadísticas específicas para Ten Shin Han
         qDebug() << "Enemigo: Ten Shin Han creado.";
         break;
 
@@ -144,47 +147,24 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
     // --- Creación de Hitbox para el Jugador ---
     if (jugador->getEstaAtacando()) {
-        float hitboxX;
-        // Obtenemos el rectángulo del jugador para calcular la posición de la hitbox.
-        QRectF rectJugador = jugador->getBoundingRect();
+        float hitboxX = (jugador->getDireccion() == 1)
+        ? rectJugador.x() + rectJugador.width()
+        : rectJugador.x() - 40.0f;
 
-        // NOTA: Aquí se debería calcular una posición y tamaño adecuados para el puño/patada.
-        // Por ahora, para que compile, usamos los datos del rectángulo del jugador.
-        if (jugador->getDireccion() == 1)
-            hitboxX = rectJugador.x() + rectJugador.width();
-        else
-            hitboxX = rectJugador.x() - 40.0f;
-
-        float hitboxY = rectJugador.y() + 20;                  // Ejemplo: a la altura del torso
-        float hitboxAncho = 40.0f;
-        float hitboxAlto = 20.0f;
-
-        // Se llama al constructor de Hitbox con los 7 argumentos correctos.
-        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, jugador->getDañoBase(), 0.2f, jugador));
-
+        hitboxesActivas.push_back(new Hitbox(hitboxX, rectJugador.y() + 20, 40.0f, 20.0f,
+                                             jugador->getDañoBase(), 0.2f, jugador));
     }
 
-    // --- Creación de Hitbox para el Enemigo ---
     if (enemigo->getEstaAtacando()) {
-        float hitboxX;
-        // Hacemos lo mismo para el enemigo.
-        QRectF rectEnemigo = enemigo->getBoundingRect();
+        float hitboxX = (enemigo->getDireccion() == 1)
+        ? rectEnemigo.x() + rectEnemigo.width()
+        : rectEnemigo.x() - 40.0f;
 
-        if (enemigo->getDireccion() == 1)
-            hitboxX = rectEnemigo.x() + rectEnemigo.width();
-        else
-            hitboxX = rectEnemigo.x() - 40.0f;
-
-        float hitboxY = rectEnemigo.y() + 20;
-        float hitboxAncho = 40.0f;
-        float hitboxAlto = 20.0f;
-
-        // Se llama al constructor con los 7 argumentos correctos.
-        hitboxesActivas.push_back(new Hitbox(hitboxX, hitboxY, hitboxAncho, hitboxAlto, enemigo->getDañoBase(), 0.2f, enemigo));
-
+        hitboxesActivas.push_back(new Hitbox(hitboxX, rectEnemigo.y() + 20, 40.0f, 20.0f,
+                                             enemigo->getDañoBase(), 0.2f, enemigo));
     }
 
-    // El resto de la función permanece igual.
+
     for (auto h : hitboxesActivas) {
         h->actualizar(deltaTiempo);
     }
@@ -197,17 +177,20 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
     tiempoRestante -= deltaTiempo;
     if (tiempoRestante <= 0.0f) {
         estadoActual = Estado::DERROTA;
-        sonidoDerrota.play();
+        playerDerrota->stop();
+        playerDerrota->play();
         tiempoFinalizacion = 3.0f;
     }
     if (!jugador->estaVivo()) {
         estadoActual = Estado::DERROTA;
-        sonidoDerrota.play();
+        playerDerrota->stop();
+        playerDerrota->play();
         tiempoFinalizacion = 3.0f;
     }
     else if (!enemigo->estaVivo()) {
         estadoActual = Estado::VICTORIA;
-        sonidoVictoria.play();
+        playerVictoria->stop();
+        playerVictoria->play();
         tiempoFinalizacion = 3.0f;
     }
 }
