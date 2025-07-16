@@ -1,6 +1,6 @@
 #include "luchador.h"
 #include <QtMath>
-#include <QUrl>
+
 
 Luchador::Luchador(float x, float y, float ancho, float alto)
     : Entidad(x, y, ancho, alto),
@@ -9,48 +9,9 @@ Luchador::Luchador(float x, float y, float ancho, float alto)
     velocidadSalto(-500.0f), enSuelo(true), direccion(1)
 {
 
-    // Golpe recibido
-    playerGolpeRecibido = new QMediaPlayer();
-    audioOutputGolpe = new QAudioOutput();
-    playerGolpeRecibido->setAudioOutput(audioOutputGolpe);
-    playerGolpeRecibido->setSource(QUrl("qrc:/Sonidos/Golpe.mp3"));
-    audioOutputGolpe->setVolume(0.6f);
-
-    // Puño
-    playerPuño = new QMediaPlayer();
-    audioOutputPuño = new QAudioOutput();
-    playerPuño->setAudioOutput(audioOutputPuño);
-    playerPuño->setSource(QUrl("qrc:/Sonidos/Puno.mp3"));
-    audioOutputPuño->setVolume(0.6f);
-
-    // Patada
-    playerPatada = new QMediaPlayer();
-    audioOutputPatada = new QAudioOutput();
-    playerPatada->setAudioOutput(audioOutputPatada);
-    playerPatada->setSource(QUrl("qrc:/Sonidos/Patada.mp3"));
-    audioOutputPatada->setVolume(0.6f);
-
-    // Salto
-    playerSalto = new QMediaPlayer();
-    audioOutputSalto = new QAudioOutput();
-    playerSalto->setAudioOutput(audioOutputSalto);
-    playerSalto->setSource(QUrl("qrc:/Sonidos/Salto.mp3"));
-    audioOutputSalto->setVolume(0.6f);
-
 }
 
 Luchador::~Luchador() {
-    delete playerGolpeRecibido;
-    delete audioOutputGolpe;
-
-    delete playerPuño;
-    delete audioOutputPuño;
-
-    delete playerPatada;
-    delete audioOutputPatada;
-
-    delete playerSalto;
-    delete audioOutputSalto;
 
 }
 void Luchador::recibirDaño(float daño) {
@@ -69,9 +30,6 @@ void Luchador::recibirDaño(float daño) {
     if (posX < 0) posX = 0;
     if (posX > 800 - ancho) posX = 800 - ancho;
 
-    playerGolpeRecibido->stop();
-    playerGolpeRecibido->play();
-
 }
 
 bool Luchador::estaVivo() const {
@@ -82,9 +40,6 @@ void Luchador::saltar() {
     if (estaEnElSuelo()) {
         velocidadY = velocidadSalto;
         enSuelo = false;
-
-        playerSalto->stop();
-        playerSalto->play();
     }
 }
 
