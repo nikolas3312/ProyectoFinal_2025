@@ -15,15 +15,21 @@
 
 
 class Nivel2_3 : public Nivel {
-private:
+public:
     enum class Estado {
         CUENTA_REGRESIVA,
         JUGANDO,
         VICTORIA,
         DERROTA
     };
-
+    enum class ResultadoCombate {
+        NINGUNO,
+        VICTORIA_JUGADOR,
+        DERROTA_JUGADOR
+    };
+private:
     Estado estadoActual;
+    ResultadoCombate resultado = ResultadoCombate::NINGUNO;
     PersonajeSeleccionado personajeElegido;
 
     PersonajeJugador* jugador;
@@ -57,6 +63,7 @@ public:
     void procesarInput(QKeyEvent* evento) override;
     void procesarInputLiberado(QKeyEvent* evento) override;
     int getNumeroNivel() const { return numeroNivel; }
+    ResultadoCombate getEstadoResultado() const { return resultado;}
 
 };
 
