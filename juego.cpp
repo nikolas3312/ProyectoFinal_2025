@@ -176,18 +176,30 @@ void Juego::actualizar()
                 Nivel2_3* nivel23 = dynamic_cast<Nivel2_3*>(nivelActual);
                 if (nivel23) {
                     int num = nivel23->getNumeroNivel();
+                    auto res = nivel23->getEstadoResultado();
                     if (num == 2) {
-                        qDebug() << "Nivel 2 completado. Avanzando al nivel 3 (Piccoro).";
-                        cambiarNivel(3);
-                    }
-                    else if (num == 3) {
-                        qDebug() << "Nivel 3 completado. Juego terminado con VICTORIA.";
-                        this->estadoActual = GameState::VICTORIA;
+                        if (res == Nivel2_3::ResultadoCombate::VICTORIA_JUGADOR) {
+                            qDebug() << "Nivel 2 ganado. Pasando a nivel 3.";
+                            cambiarNivel(3);
+                        } else if (res == Nivel2_3::ResultadoCombate::DERROTA_JUGADOR) {
+                            qDebug() << "Nivel 2 perdido. Reiniciando nivel 2.";
+                            cambiarNivel(2);
+                        }
+                        else if (num == 3) {
+                            if (res == Nivel2_3::ResultadoCombate::VICTORIA_JUGADOR) {
+                                qDebug() << "Nivel 3 ganado. Juego terminado con VICTORIA.";
+                                this->estadoActual = GameState::VICTORIA;
+                            } else if (res == Nivel2_3::ResultadoCombate::DERROTA_JUGADOR) {
+                                qDebug() << "Nivel 3 perdido. Juego terminado con DERROTA.";
+                                this->estadoActual = GameState::DERROTA;
+                            }
+                        }
                     }
                 }
             }
         }
     }
+
 
 
     // Forza a la ventana a redibujarse para mostrar los cambios.
