@@ -1,4 +1,5 @@
 #include "nivel2_3.h"
+#include "Juego.h"  // Para usar cargarAudio
 #include <cmath>
 #include <QDebug>
 
@@ -15,20 +16,6 @@ Nivel2_3::Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel)
 {
 
 
-    // Victoria
-    audioVictoria = new QAudioOutput();
-    playerVictoria = new QMediaPlayer();
-    playerVictoria->setAudioOutput(audioVictoria);
-    playerVictoria->setSource(QUrl("qrc:/Sonidos/Victoria.mp3"));
-    audioVictoria->setVolume(0.8f);
-
-    // Derrota
-    audioDerrota = new QAudioOutput();
-    playerDerrota = new QMediaPlayer();
-    playerDerrota->setAudioOutput(audioDerrota);
-    playerDerrota->setSource(QUrl("qrc:/Sonidos/Derrota.mp3"));
-    audioDerrota->setVolume(0.8f);
-
 }
 
 Nivel2_3::~Nivel2_3() {
@@ -38,10 +25,6 @@ Nivel2_3::~Nivel2_3() {
         delete h;
     hitboxesActivas.clear();
 
-    delete playerVictoria;
-    delete audioVictoria;
-    delete playerDerrota;
-    delete audioDerrota;
 }
 
 void Nivel2_3::inicializar()
@@ -80,6 +63,8 @@ void Nivel2_3::inicializar()
     } else {
         qDebug() << "¡ERROR! Uno o ambos punteros a personajes son nullptr.";
     }
+
+
 }
 
 void Nivel2_3::actualizar(float deltaTiempo) {
@@ -153,6 +138,7 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
         hitboxesActivas.push_back(new Hitbox(hitboxX, rectJugador.y() + 20, 40.0f, 20.0f,
                                              jugador->getDañoBase(), 0.2f, jugador));
+
     }
 
     if (enemigo->getEstaAtacando()) {
@@ -162,6 +148,7 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
 
         hitboxesActivas.push_back(new Hitbox(hitboxX, rectEnemigo.y() + 20, 40.0f, 20.0f,
                                              enemigo->getDañoBase(), 0.2f, enemigo));
+
     }
 
 
@@ -177,20 +164,14 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
     tiempoRestante -= deltaTiempo;
     if (tiempoRestante <= 0.0f) {
         estadoActual = Estado::DERROTA;
-        playerDerrota->stop();
-        playerDerrota->play();
         tiempoFinalizacion = 3.0f;
     }
     if (!jugador->estaVivo()) {
         estadoActual = Estado::DERROTA;
-        playerDerrota->stop();
-        playerDerrota->play();
         tiempoFinalizacion = 3.0f;
     }
     else if (!enemigo->estaVivo()) {
         estadoActual = Estado::VICTORIA;
-        playerVictoria->stop();
-        playerVictoria->play();
         tiempoFinalizacion = 3.0f;
     }
 }
