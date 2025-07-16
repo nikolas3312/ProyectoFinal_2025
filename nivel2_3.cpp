@@ -38,6 +38,7 @@ void Nivel2_3::inicializar()
     case 2:
         enemigo = new Enemigo(500, 400, 50, 80);
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
+        enemigo->setCooldownAtaque(0.2f); // pega mas rapido
         qDebug() << "Enemigo: Ten Shin Han creado.";
         break;
 
@@ -46,7 +47,7 @@ void Nivel2_3::inicializar()
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
         qDebug() << "Enemigo: Piccolo creado.";
         enemigo->setVida(150.0f);          // Más vida
-        enemigo->setCooldownAtaque(0.5f);  // Más rápido para atacar
+        enemigo->setCooldownAtaque(0.1f);  // Más rápido para atacar
         static_cast<Enemigo*>(enemigo)->resistencia = 0.5f;  // Recibe solo el 50% del daño
         break;
 
@@ -163,14 +164,17 @@ void Nivel2_3::actualizarCombate(float deltaTiempo, const QSet<int>& teclas)
     tiempoRestante -= deltaTiempo;
     if (tiempoRestante <= 0.0f) {
         estadoActual = Estado::DERROTA;
+        resultado = ResultadoCombate::DERROTA_JUGADOR;
         tiempoFinalizacion = 3.0f;
     }
     if (!jugador->estaVivo()) {
         estadoActual = Estado::DERROTA;
+        resultado = ResultadoCombate::DERROTA_JUGADOR;
         tiempoFinalizacion = 3.0f;
     }
     else if (!enemigo->estaVivo()) {
         estadoActual = Estado::VICTORIA;
+        resultado = ResultadoCombate::VICTORIA_JUGADOR;
         tiempoFinalizacion = 3.0f;
     }
 }
