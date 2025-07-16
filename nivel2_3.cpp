@@ -1,5 +1,4 @@
 #include "nivel2_3.h"
-#include "Juego.h"  // Para usar cargarAudio
 #include <cmath>
 #include <QDebug>
 
