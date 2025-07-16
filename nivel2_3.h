@@ -13,6 +13,7 @@
 
 
 
+
 class Nivel2_3 : public Nivel {
 private:
     enum class Estado {
@@ -40,13 +41,6 @@ private:
 
     QSet<int> teclasPresionadas;
     QPixmap fondoEscenario;
-
-    QMediaPlayer* playerVictoria;
-    QAudioOutput* audioVictoria;
-
-    QMediaPlayer* playerDerrota;
-    QAudioOutput* audioDerrota;
-
 
 public:
     Nivel2_3(PersonajeSeleccionado personaje, int numeroNivel);
