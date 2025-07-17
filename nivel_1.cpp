@@ -4,7 +4,7 @@
 #include <cmath>    // ceil()
 #include <QDebug>
 // --- Constantes de configuración del Nivel ---
-constexpr float TIEMPO_A_SOBREVIVIR = 2.0f;
+constexpr float TIEMPO_A_SOBREVIVIR = 60.0f;
 constexpr float TIEMPO_INICIAL_CUENTA_REGRESIVA = 3.0f;
 constexpr float INTERVALO_GENERACION_OBSTACULO = 0.5f;
 constexpr float ACELERACION_INICIAL = 0.2f;

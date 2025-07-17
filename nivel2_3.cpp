@@ -38,7 +38,7 @@ void Nivel2_3::inicializar()
     case 2:
         enemigo = new Enemigo(500, 400, 50, 80);
         enemigo->setDireccion(-1);  // Inicialmente mira a la izquierda
-        enemigo->setCooldownAtaque(0.2f); // pega mas rapido
+        enemigo->setCooldownAtaque(0.005f); // pega mas rapido
         qDebug() << "Enemigo: Ten Shin Han creado.";
         break;
 

@@ -47,7 +47,7 @@ void Enemigo::atacarPuño() {
     if (cooldownAtaque <= 0) {
         estaAtacando = true;
         tipoAtaque = TipoAtaque::Puno;
-        cooldownAtaque = 1.0f;
+        cooldownAtaque = 0.2f;
         dañoBase = 10.0f;
         tiempoAtaque = 0.2f;
     }
@@ -57,7 +57,7 @@ void Enemigo::atacarPatada() {
     if (cooldownAtaque <= 0) {
         estaAtacando = true;
         tipoAtaque = TipoAtaque::Patada;
-        cooldownAtaque = 1.2f;
+        cooldownAtaque = 0.6f;
         dañoBase = 20.0f;
         tiempoAtaque = 0.2f;
     }
